@@ -7,7 +7,7 @@ import com.pioriko.ms_restaurante.dao.RolRepository;
 import com.pioriko.ms_restaurante.dao.UsuarioRepository;
 import com.pioriko.ms_restaurante.entities.Rol;
 import com.pioriko.ms_restaurante.entities.Role;
-import com.pioriko.ms_restaurante.entities.Usuario;
+import com.pioriko.ms_restaurante.entities.Empleados;
 import com.pioriko.ms_restaurante.service.AuthenticationService;
 import com.pioriko.ms_restaurante.service.JwtService;
 import jakarta.transaction.Transactional;
@@ -31,44 +31,44 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     @Transactional
     @Override
-    public Usuario signUpUser(SignUpRequest signUpRequest) {
-        Usuario usuario = new Usuario();
-        usuario.setNombres(signUpRequest.getNombres());
-        usuario.setApellidos(signUpRequest.getApellidos());
-        usuario.setEmail(signUpRequest.getEmail());
-        usuario.setTipoDoc(signUpRequest.getTipoDoc());
-        usuario.setNumDoc(signUpRequest.getNumDoc());
+    public Empleados signUpUser(SignUpRequest signUpRequest) {
+        Empleados empleados = new Empleados();
+        empleados.setNombres(signUpRequest.getNombres());
+        empleados.setApellidos(signUpRequest.getApellidos());
+        empleados.setCorreo(signUpRequest.getEmail());
+        //empleados.setTipoDoc(signUpRequest.getTipoDoc());
+        empleados.setNumDoc(signUpRequest.getNumDoc());
         Set<Rol> assginedRoles = new HashSet<>();
-        Rol userRol = rolRepository.findByNombreRol(Role.USER.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
+        Rol userRol = rolRepository.findByNombreRol(Role.MOZO.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);
-        usuario.setRoles(assginedRoles);
+        empleados.setRoles(assginedRoles);
         //HASH AL PASSWORD PENDIENTE
-        usuario.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
-        return usuarioRepository.save(usuario);
+        empleados.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
+        return usuarioRepository.save(empleados);
     }
 
     @Transactional
     @Override
-    public Usuario signUpAdmin(SignUpRequest signUpRequest) {
-        Usuario usuario = new Usuario();
-        usuario.setNombres(signUpRequest.getNombres());
-        usuario.setApellidos(signUpRequest.getApellidos());
-        usuario.setEmail(signUpRequest.getEmail());
-        usuario.setTipoDoc(signUpRequest.getTipoDoc());
-        usuario.setNumDoc(signUpRequest.getNumDoc());
+    public Empleados signUpAdmin(SignUpRequest signUpRequest) {
+        Empleados empleados = new Empleados();
+        empleados.setNombres(signUpRequest.getNombres());
+        empleados.setApellidos(signUpRequest.getApellidos());
+        empleados.setCorreo(signUpRequest.getEmail());
+        //empleados.setTipoDoc(signUpRequest.getTipoDoc());
+        empleados.setNumDoc(signUpRequest.getNumDoc());
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.ADMIN.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
-        Rol userRol2 = rolRepository.findByNombreRol(Role.USER.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
+        Rol userRol2 = rolRepository.findByNombreRol(Role.MOZO.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);
         assginedRoles.add(userRol2);
-        usuario.setRoles(assginedRoles);
+        empleados.setRoles(assginedRoles);
         //HASH AL PASSWORD PENDIENTE
-        usuario.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
-        return usuarioRepository.save(usuario);
+        empleados.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
+        return usuarioRepository.save(empleados);
     }
 
     @Override
-    public List<Usuario> todos() {
+    public List<Empleados> todos() {
         return usuarioRepository.findAll();
     }
 
@@ -76,7 +76,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse signin(SignInRequest signInRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 signInRequest.getEmail(),signInRequest.getPassword()));
-        var user = usuarioRepository.findByEmail(signInRequest.getEmail())
+        var user = usuarioRepository.findByCorreo(signInRequest.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Email no valido"));
 
         var token = jwtService.generateToken(user);

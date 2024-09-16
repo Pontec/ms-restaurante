@@ -3,7 +3,7 @@ package com.pioriko.ms_restaurante.controller;
 import com.pioriko.ms_restaurante.agregates.request.SignInRequest;
 import com.pioriko.ms_restaurante.agregates.request.SignUpRequest;
 import com.pioriko.ms_restaurante.agregates.response.AuthenticationResponse;
-import com.pioriko.ms_restaurante.entities.Usuario;
+import com.pioriko.ms_restaurante.entities.Empleados;
 import com.pioriko.ms_restaurante.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class AutenticacionController {
 
     //Creacion de perfil usuario
     @PostMapping("/signupuser")
-    public ResponseEntity<Usuario> signUpUser(@RequestBody SignUpRequest signUpRequest){
+    public ResponseEntity<Empleados> signUpUser(@RequestBody SignUpRequest signUpRequest){
         return ResponseEntity.ok(authenticationService.signUpUser(signUpRequest));
     }
 
     //Creacion de perfil administrador
     @PostMapping("/signupadmin")
-    public ResponseEntity<Usuario> signUpAdmin(@RequestBody SignUpRequest signUpRequest){
+    public ResponseEntity<Empleados> signUpAdmin(@RequestBody SignUpRequest signUpRequest){
         return ResponseEntity.ok(authenticationService.signUpAdmin(signUpRequest));
     }
 
