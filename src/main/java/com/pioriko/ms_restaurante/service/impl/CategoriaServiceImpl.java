@@ -1,10 +1,11 @@
 package com.pioriko.ms_restaurante.service.impl;
 
+import com.pioriko.ms_restaurante.agregates.dto.CategoriaDTO;
+import com.pioriko.ms_restaurante.agregates.mapper.CategoriaMapper;
 import com.pioriko.ms_restaurante.dao.CategoriaRepository;
-import com.pioriko.ms_restaurante.entities.Categoria;
+import com.pioriko.ms_restaurante.entities.CategoriaEntity;
 import com.pioriko.ms_restaurante.service.CategoriaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,19 +17,25 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 
     private final CategoriaRepository categoriaRepository;
+    private final CategoriaMapper categoriaMapper;
 
     @Override
-    public Categoria save(Categoria categoria) {
+    public CategoriaEntity save(CategoriaDTO categoriaDTO) {
+        // Convertir el DTO a entidad
+
+        CategoriaEntity categoria = categoriaMapper.mapToEntity(categoriaDTO);
+
+        // Guardar la categoria
         return categoriaRepository.save(categoria);
     }
 
     @Override
-    public List<Categoria> findAll() {
+    public List<CategoriaEntity> findAll() {
         return categoriaRepository.findAll();
     }
 
     @Override
-    public Categoria findById(Integer id) {
+    public CategoriaEntity findById(Integer id) {
         return categoriaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Categoria no encontrada"));
     }
 
@@ -38,12 +45,10 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Categoria update(Integer id, Categoria categoria) {
+    public CategoriaEntity update(Integer id, CategoriaDTO categoriaDTO) {
 
-        Categoria existeCategoria = findById(id);
-        existeCategoria.setDescripcion(categoria.getDescripcion());
-        existeCategoria.setEstado(categoria.getEstado());
-        existeCategoria.setProductos(categoria.getProductos());
+        CategoriaEntity existeCategoria = findById(id);
+        existeCategoria.setNombre(categoriaDTO.getNombre());
 
         return categoriaRepository.save(existeCategoria);
     }

@@ -20,17 +20,17 @@ public class ProductoEntity {
     @Column(name = "id_producto")
     private Integer id;
     private String nombre;
+    private Double precio;
     private String descripcion;
-    private int stock;
-    @Column(name = "precio_compra")
-    private Double precioCompra;
-    @Column(name = "precio_venta")
-    private Double precioVenda;
+    @Column(name = "foto")
     private String imagen;
     private int estado;
+    private int stock;
+    private int porcion;
+    private String litros;
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     @JsonBackReference
-    private Categoria categoria;
+    private CategoriaEntity categoria;
 }

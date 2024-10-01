@@ -4,7 +4,7 @@ import com.pioriko.ms_restaurante.agregates.dto.ProductoDTO;
 import com.pioriko.ms_restaurante.agregates.mapper.ProductoMapper;
 import com.pioriko.ms_restaurante.dao.CategoriaRepository;
 import com.pioriko.ms_restaurante.dao.ProductoRepository;
-import com.pioriko.ms_restaurante.entities.Categoria;
+import com.pioriko.ms_restaurante.entities.CategoriaEntity;
 import com.pioriko.ms_restaurante.entities.ProductoEntity;
 import com.pioriko.ms_restaurante.service.ProductoService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public ProductoDTO save(ProductoDTO productoDTO) {
         //Buscamos la categoria por Id
-        Categoria categoria = categoriaRepository.findById(productoDTO.getIdCategoria())
+        CategoriaEntity categoria = categoriaRepository.findById(productoDTO.getIdCategoria())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + productoDTO.getIdCategoria()));
 
         // Convertir el DTO a entidad
@@ -65,17 +65,16 @@ public class ProductoServiceImpl implements ProductoService {
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
 
         // Actualizar el producto con los nuevos datos
-        Categoria categoria = categoriaRepository.findById(productoDto.getIdCategoria())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + productoDto.getIdCategoria()));
+        //CategoriaEntity categoria = categoriaRepository.findById(productoDto.getIdCategoria())
+        //        .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + productoDto.getIdCategoria()));
 
         producto.setNombre(productoDto.getNombre());
         producto.setDescripcion(productoDto.getDescripcion());
         producto.setStock(productoDto.getStock());
-        producto.setPrecioCompra(productoDto.getPrecioCompra());
-        producto.setPrecioVenda(productoDto.getPrecioVenda());
-        producto.setImagen(productoDto.getImagen());
+        producto.setPrecio(productoDto.getPrecio());
         producto.setEstado(productoDto.getEstado());
-        producto.setCategoria(categoria);
+        producto.setImagen(productoDto.getImagen());
+        //producto.setCategoria(categoria);
 
 
         // Guardar el producto actualizado

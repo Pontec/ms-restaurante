@@ -17,14 +17,14 @@ public class ProductoController {
 
     private final ProductoService productoService;
 
-    @PostMapping("/guardar")
+    @PostMapping("/crear")
     public ResponseEntity<ProductoDTO> saveProductos(@RequestBody ProductoDTO productoDto) {
         ProductoDTO nuevoProducto = productoService.save(productoDto);
         return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/todos-productos")
+    @GetMapping("/todos")
     public List<ProductoEntity> listarCategorias() {
         return productoService.findAll();
     }
@@ -35,13 +35,13 @@ public class ProductoController {
         return new ResponseEntity<>(producto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("eliminar/{id}")
     public ResponseEntity<Void> eliminarProducto(@PathVariable Integer id) {
         productoService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("actualizar/{id}")
     public ResponseEntity<ProductoDTO> actualizarProducto(@PathVariable Integer id, @RequestBody ProductoDTO productoDto) {
         ProductoDTO productoActulizado = productoService.update(id, productoDto);
         return new ResponseEntity<>(productoActulizado, HttpStatus.OK);
