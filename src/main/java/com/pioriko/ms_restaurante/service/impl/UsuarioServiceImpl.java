@@ -1,7 +1,7 @@
 package com.pioriko.ms_restaurante.service.impl;
 
 import com.pioriko.ms_restaurante.dao.UsuarioRepository;
-import com.pioriko.ms_restaurante.entities.Usuario;
+import com.pioriko.ms_restaurante.entities.Empleados;
 import com.pioriko.ms_restaurante.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,14 +21,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return usuarioRepository.findByEmail(username).orElseThrow(
+                return usuarioRepository.findByCorreo(username).orElseThrow(
                         () -> new UsernameNotFoundException("Usuario no encontrado"));
             }
         };
     }
 
     @Override
-    public List<Usuario> getUsuarios() {
+    public List<Empleados> getUsuarios() {
         return usuarioRepository.findAll();
     }
 }

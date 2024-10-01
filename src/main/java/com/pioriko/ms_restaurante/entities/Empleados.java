@@ -12,23 +12,25 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "empleados")
 @Data
-public class Usuario implements UserDetails {
+public class Empleados implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_empleado")
     private Long id;
     private String nombres;
     private String apellidos;
-    private String email;
+    private String correo;
     private String password;
-    private String tipoDoc;
+    //private String tipoDoc;
+    @Column (name = "dni")
     private String numDoc;
 
     //private boolean accountNonExpired;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_rol",
-            joinColumns = @JoinColumn(name = "id_usuario"),
+    @JoinTable(name = "empleado_rol",
+            joinColumns = @JoinColumn(name = "id_empleado"),
             inverseJoinColumns = @JoinColumn(name = "id_rol"))
     private Set<Rol> roles = new HashSet<>();
 
@@ -41,7 +43,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return correo;
     }
 
     @Override
