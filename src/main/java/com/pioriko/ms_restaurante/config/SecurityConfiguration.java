@@ -35,8 +35,9 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable) // Cross-Site Request Forgery
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // habilitar CORS
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/autenticacion/**")
-                        .permitAll()
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/api/v1/autenticacion/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasAnyAuthority(Role.ADMIN.name())
                         .requestMatchers("/api/v1/user/**").hasAnyAuthority(Role.MOZO.name())
                         .anyRequest().authenticated())
