@@ -1,7 +1,7 @@
 package com.pioriko.ms_restaurante.config;
 
 import com.pioriko.ms_restaurante.entities.Role;
-import com.pioriko.ms_restaurante.service.UsuarioService;
+import com.pioriko.ms_restaurante.service.EmpleadoService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
@@ -29,7 +28,7 @@ import java.util.Arrays;
 public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final UsuarioService usuarioService;
+    private final EmpleadoService empleadoService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -40,6 +39,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasAnyAuthority(Role.ADMIN.name())
                         .requestMatchers("/api/v1/user/**").hasAnyAuthority(Role.MOZO.name())
+                        .requestMatchers("/api/v1/caja/**").hasAnyAuthority(Role.CAJA.name())
+                        .requestMatchers("/api/v1/cocina/**").hasAnyAuthority(Role.COCINERO.name())
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
@@ -51,7 +52,7 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(usuarioService.userDetailService());
+        authenticationProvider.setUserDetailsService(empleadoService.userDetailService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }

@@ -1,7 +1,7 @@
 package com.pioriko.ms_restaurante.controller;
 
 import com.pioriko.ms_restaurante.entities.Empleados;
-import com.pioriko.ms_restaurante.service.UsuarioService;
+import com.pioriko.ms_restaurante.service.EmpleadoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UsuarioService usuarioService;
+    private final EmpleadoService empleadoService;
 
     @GetMapping("/hola")
     public ResponseEntity<String> saludoAdmin(){
@@ -24,6 +24,6 @@ public class UserController {
 
     @GetMapping("/todos")
     public ResponseEntity<List<Empleados>> todos(){
-        return ResponseEntity.ok(usuarioService.getUsuarios());
+        return ResponseEntity.ok(empleadoService.getUsuarios());
     }
 }

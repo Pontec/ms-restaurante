@@ -1,11 +1,13 @@
 package com.pioriko.ms_restaurante.service.impl;
 
+import com.pioriko.ms_restaurante.entities.Empleados;
 import com.pioriko.ms_restaurante.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,14 @@ import java.util.function.Function;
 @Service
 public class JwtServiceImpl implements JwtService {
 
+    private final EmpleadoServiceImpl empleadoServiceImpl;
     @Value("${key.signature}")
     private String keySignature;
+
+    public JwtServiceImpl(EmpleadoServiceImpl empleadoServiceImpl) {
+        this.empleadoServiceImpl = empleadoServiceImpl;
+    }
+
     @Override
     public String extractUserName(String token) {
         return extractClaims(token, Claims::getSubject);
@@ -27,7 +35,10 @@ public class JwtServiceImpl implements JwtService {
     ///Generar un TOKEN
     @Override
     public String generateToken(UserDetails userDetails) {
-        return Jwts.builder().setSubject(userDetails.getUsername())
+        Empleados empleado = (Empleados) userDetails;
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .claim("roles", empleado.getAuthorities())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 6000000))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
@@ -39,6 +50,9 @@ public class JwtServiceImpl implements JwtService {
         final String username = extractUserName(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+
+
     //Metodo que te deveuvle la clave con la que se firma el token.
     private Key getSignKey(){
         byte[] key = Decoders.BASE64.decode(keySignature);

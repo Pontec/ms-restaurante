@@ -1,7 +1,7 @@
 package com.pioriko.ms_restaurante.config;
 
 import com.pioriko.ms_restaurante.service.JwtService;
-import com.pioriko.ms_restaurante.service.UsuarioService;
+import com.pioriko.ms_restaurante.service.EmpleadoService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import java.util.Objects;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UsuarioService usuarioService;
+    private final EmpleadoService empleadoService;
 
 
     @Override
@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUserName(jwt);
 
         if(Objects.nonNull(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = usuarioService.userDetailService().loadUserByUsername(userEmail);
+            UserDetails userDetails = empleadoService.userDetailService().loadUserByUsername(userEmail);
             if(jwtService.validateToken(jwt,userDetails)){
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

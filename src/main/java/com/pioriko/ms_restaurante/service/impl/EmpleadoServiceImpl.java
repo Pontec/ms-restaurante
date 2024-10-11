@@ -2,7 +2,7 @@ package com.pioriko.ms_restaurante.service.impl;
 
 import com.pioriko.ms_restaurante.dao.UsuarioRepository;
 import com.pioriko.ms_restaurante.entities.Empleados;
-import com.pioriko.ms_restaurante.service.UsuarioService;
+import com.pioriko.ms_restaurante.service.EmpleadoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,10 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
-public class UsuarioServiceImpl implements UsuarioService {
+public class EmpleadoServiceImpl implements EmpleadoService {
     private final UsuarioRepository usuarioRepository;
     @Override
     public UserDetailsService userDetailService() {

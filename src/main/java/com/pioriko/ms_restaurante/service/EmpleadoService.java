@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UsuarioService {
+public interface EmpleadoService {
     UserDetailsService userDetailService();
     List<Empleados> getUsuarios();
 }
