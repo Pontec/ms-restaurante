@@ -11,10 +11,10 @@ import java.util.Optional;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseBase {
+public class ResponseBase<T> {
     //La estructura que nosotros vamos a utilizar para responder
     private int code;
     private String message;
-    private Optional date;
+    private Optional<T> data;
 
 }
