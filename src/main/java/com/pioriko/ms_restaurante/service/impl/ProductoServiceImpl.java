@@ -1,17 +1,22 @@
 package com.pioriko.ms_restaurante.service.impl;
 
+import com.pioriko.ms_restaurante.agregates.dto.CategoriaDTO;
 import com.pioriko.ms_restaurante.agregates.dto.ProductoDTO;
 import com.pioriko.ms_restaurante.agregates.mapper.ProductoMapper;
 import com.pioriko.ms_restaurante.dao.CategoriaRepository;
 import com.pioriko.ms_restaurante.dao.ProductoRepository;
 import com.pioriko.ms_restaurante.entities.CategoriaEntity;
 import com.pioriko.ms_restaurante.entities.ProductoEntity;
+import com.pioriko.ms_restaurante.entities.enu.EstadoProducto;
 import com.pioriko.ms_restaurante.service.ProductoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,33 +28,28 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public ProductoDTO save(ProductoDTO productoDTO) {
-        //Buscamos la categoria por Id
-        CategoriaEntity categoria = categoriaRepository.findById(productoDTO.getIdCategoria())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + productoDTO.getIdCategoria()));
-
-        // Convertir el DTO a entidad
-        ProductoEntity producto = productoMapper.mapToEntity(productoDTO);
-        producto.setCategoria(categoria);
-
-        // Guardar el producto
-        ProductoEntity nuevoProducto = productoRepository.save(producto);
-
-        // Convertir de vuelta a DTO
-        return productoMapper.mapToDto(nuevoProducto);
+        // Verificar si la categoría existe
+        CategoriaEntity categoriaExiste = categoriaRepository.findById(productoDTO.getIdCategoria()).orElseThrow(()-> new NoSuchElementException("Categoria no encontrada"));
+        // Convertir el DTO a la entidad del producto
+        ProductoEntity productoEntity = productoMapper.mapToProductoEntity(productoDTO);
+        productoEntity.setCategoria(categoriaExiste);
+        // Guardar la entidad del producto en la base de datos
+        ProductoEntity productoGuardado = productoRepository.save(productoEntity);
+        // Convertir la entidad guardada a DTO y devolverla
+        return productoMapper.mapToProductoDTO(productoGuardado);
     }
 
     @Override
-    public List<ProductoEntity> findAll() {
+    public List<ProductoDTO> findAll() {
         List<ProductoEntity> producto = productoRepository.findAll();
-        //return productos.stream().map(this::mapToDTO).collect(Collectors.toList());
-        return producto;
+        return producto.stream().map(productoMapper::mapToProductoDTO).collect(Collectors.toList());
     }
 
     @Override
     public ProductoDTO findById(int id) {
-        ProductoEntity producto = productoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Producto no encontrada"));
+        ProductoEntity producto = productoRepository.findById(id).orElseThrow(()-> new NoSuchElementException("Producto no encontrado"));
+        return productoMapper.mapToProductoDTO(producto);
 
-        return productoMapper.mapToDto(producto);
     }
 
     @Override
@@ -60,26 +60,20 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public ProductoDTO update(int id, ProductoDTO productoDto) {
-        // Verificar si el producto existe
-        ProductoEntity producto = productoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
 
-        // Actualizar el producto con los nuevos datos
-        //CategoriaEntity categoria = categoriaRepository.findById(productoDto.getIdCategoria())
-        //        .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + productoDto.getIdCategoria()));
-
-        producto.setNombre(productoDto.getNombre());
-        producto.setDescripcion(productoDto.getDescripcion());
-        producto.setStock(productoDto.getStock());
-        producto.setPrecio(productoDto.getPrecio());
-        producto.setEstado(productoDto.getEstado());
-        producto.setImagen(productoDto.getImagen());
-        //producto.setCategoria(categoria);
-
-
-        // Guardar el producto actualizado
-        ProductoEntity productoActualizado = productoRepository.save(producto);
-
-        return productoMapper.mapToDto(productoActualizado);
+        Optional<ProductoEntity> productoOptional = productoRepository.findById(id);
+        if (productoOptional.isPresent()) {
+            ProductoEntity producto = productoOptional.get();
+            producto.setNombre(productoDto.getNombre());
+            producto.setDescripcion(productoDto.getDescripcion());
+            producto.setPrecio(productoDto.getPrecio());
+            producto.setEstado(productoDto.getEstado());
+            producto.setPorcion(productoDto.getPorcion());
+            producto.setStock(productoDto.getStock());
+            producto.setLitros(productoDto.getLitros());
+            productoRepository.save(producto);
+            return productoMapper.mapToProductoDTO(producto);
+        }
+        return null;
     }
 }
