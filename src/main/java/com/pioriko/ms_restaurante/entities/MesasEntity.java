@@ -1,5 +1,6 @@
 package com.pioriko.ms_restaurante.entities;
 
+import com.pioriko.ms_restaurante.entities.enu.EstadoMesa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,15 +18,11 @@ public class MesasEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_mesa")
-    private Integer id;
+    private Integer idMesa;
     private String numeroMesa;
     private int capacidad;
     @Enumerated(EnumType.STRING)
     private EstadoMesa estado;
 
-    public enum EstadoMesa {
-        DISPONIBLE,
-        OCUPADA,
-        RESERVADA
-    }
+
 }

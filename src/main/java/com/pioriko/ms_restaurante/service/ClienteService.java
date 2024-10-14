@@ -10,5 +10,4 @@ public interface ClienteService {
     ClienteDTO obtenerClientePorId(Integer idCliente);
     List<ClienteDTO> listarClientes();
     ClienteDTO actualizarCliente(Integer idCliente, ClienteDTO clienteDTO);
-    void eliminarCliente(Integer idCliente);
 }
