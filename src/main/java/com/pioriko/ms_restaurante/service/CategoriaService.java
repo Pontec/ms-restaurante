@@ -4,12 +4,13 @@ import com.pioriko.ms_restaurante.agregates.dto.CategoriaDTO;
 import com.pioriko.ms_restaurante.entities.CategoriaEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoriaService {
-    CategoriaEntity save(CategoriaDTO categoriaDTO);
-    List<CategoriaEntity> findAll();
-    CategoriaEntity findById(Integer id);
+    CategoriaDTO save(CategoriaDTO categoriaDTO);
+    List<CategoriaDTO> findAll();
+    Optional<CategoriaDTO> findById(Integer id);
     void deleteById(Integer id);
-    CategoriaEntity update(Integer id, CategoriaDTO categoriaDTO);
+    CategoriaDTO update(Integer id, CategoriaDTO categoriaDTO);
 
 }

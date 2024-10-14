@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClienteServiceImpl implements ClienteService {
 
-
-
     private final ClienteRepository clienteRepository;
     private final ClienteMapper clienteMapper;
     private final ClientReniec clientReniec;
@@ -30,31 +28,21 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDTO crearCliente(ClienteDTO clienteDTO) {
-        ClientesEntity cliente = clienteMapper.mapToEntity(clienteDTO);
-        boolean existe = clienteRepository.existsByDni(cliente.getDni());
-        if (existe){
-            ClientesEntity existingCliente = clienteRepository.findByDni(cliente.getDni());
-            return clienteMapper.mapToDto(existingCliente);
+        ClientesEntity cliente = clienteMapper.mapToClientesEntity(clienteDTO);
+        ClientesEntity exist = clienteRepository.findByDni(cliente.getDni());
+        if (exist != null){
+            return clienteMapper.mapToClienteDTO(exist);
         }
         ClientesEntity clienteReniec = getClienteReniec(cliente);
-
-        if (clienteReniec != null){
-            return clienteMapper.mapToDto(clienteRepository.save(clienteReniec));
-        }
-        else {
-            throw new RuntimeException("Error, la persona No existe en Reniec");
-        }
+        return clienteMapper.mapToClienteDTO(clienteRepository.save(clienteReniec));
     }
+
     private ClientesEntity getClienteReniec(ClientesEntity clienteEntity) {
         ResponseReniec responseReniec = getExecutionReniec(clienteEntity.getDni());
         ClientesEntity clienteReniec = new ClientesEntity();
-
         if(responseReniec != null){
             clienteReniec.setNombre(responseReniec.getNombres());
             clienteReniec.setApellido(responseReniec.getApellidoPaterno() + " " + responseReniec.getApellidoMaterno());
-            clienteReniec.setCorreo(clienteEntity.getCorreo());
-            clienteReniec.setTelefono(clienteEntity.getTelefono());
-            clienteReniec.setDireccion(clienteEntity.getDireccion());
             clienteReniec.setDni(responseReniec.getNumeroDocumento());
             return clienteReniec;
         }
@@ -63,35 +51,31 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDTO obtenerClientePorId(Integer idCliente) {
-        ClientesEntity cliente = clienteRepository.findById(idCliente)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        return clienteMapper.mapToDto(cliente);
+        ClientesEntity cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        return clienteMapper.mapToClienteDTO(cliente);
     }
 
     @Override
     public List<ClienteDTO> listarClientes() {
         List<ClientesEntity> clientes = clienteRepository.findAll();
         return clientes.stream()
-                .map(clienteMapper::mapToDto)
+                .map(clienteMapper::mapToClienteDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public ClienteDTO actualizarCliente(Integer idCliente, ClienteDTO clienteDTO) {
-        ClientesEntity cliente = clienteRepository.findById(idCliente)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-
-        clienteMapper.mapToEntity(clienteDTO);  // Mapeamos los cambios del DTO a la entidad
-
-        ClientesEntity clienteActualizado = clienteRepository.save(cliente);
-        return clienteMapper.mapToDto(clienteActualizado);
-    }
-
-    @Override
-    public void eliminarCliente(Integer idCliente) {
-        ClientesEntity cliente = clienteRepository.findById(idCliente)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        clienteRepository.delete(cliente);
+        ClientesEntity cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        if( cliente != null){
+            cliente.setNombre(clienteDTO.getNombre());
+            cliente.setApellido(clienteDTO.getApellido());
+            cliente.setDni(clienteDTO.getDni());
+            cliente.setCorreo(clienteDTO.getCorreo());
+            cliente.setDireccion(clienteDTO.getDireccion());
+            cliente.setTelefono(clienteDTO.getTelefono());
+            return clienteMapper.mapToClienteDTO(clienteRepository.save(cliente));
+        }
+        return null;
     }
 
     //Metodos de apoyo siempre privado

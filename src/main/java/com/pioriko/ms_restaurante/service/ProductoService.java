@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProductoService {
     ProductoDTO save(ProductoDTO productoDTO);
-    List<ProductoEntity> findAll();
+    List<ProductoDTO> findAll();
     ProductoDTO findById(int id);
     void deleteById(int id);
     ProductoDTO update(int id, ProductoDTO productoDTO);

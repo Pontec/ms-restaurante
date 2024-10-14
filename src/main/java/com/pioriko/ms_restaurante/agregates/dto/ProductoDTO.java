@@ -1,5 +1,6 @@
 package com.pioriko.ms_restaurante.agregates.dto;
 
+import com.pioriko.ms_restaurante.entities.enu.EstadoProducto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,10 +9,12 @@ import lombok.Setter;
 public class ProductoDTO {
     private int id;
     private String nombre;
-    private String descripcion;
-    private int stock;
     private Double precio;
+    private String descripcion;
     private String imagen;
-    private int estado;
+    private EstadoProducto estado;
+    private String porcion;
+    private int stock;
+    private String litros;
     private Integer idCategoria;
 }

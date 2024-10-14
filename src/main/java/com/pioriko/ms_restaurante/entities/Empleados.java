@@ -23,9 +23,10 @@ public class Empleados implements UserDetails {
     private String apellidos;
     private String correo;
     private String password;
-    //private String tipoDoc;
     @Column (name = "dni")
     private String numDoc;
+    private String direccion;
+    private String telefono;
 
     //private boolean accountNonExpired;
     @ManyToMany(fetch = FetchType.EAGER)

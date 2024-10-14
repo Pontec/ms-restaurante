@@ -1,6 +1,6 @@
 package com.pioriko.ms_restaurante.service.impl;
 
-import com.pioriko.ms_restaurante.dao.UsuarioRepository;
+import com.pioriko.ms_restaurante.dao.EmpleadoRepository;
 import com.pioriko.ms_restaurante.entities.Empleados;
 import com.pioriko.ms_restaurante.service.EmpleadoService;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +14,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EmpleadoServiceImpl implements EmpleadoService {
-    private final UsuarioRepository usuarioRepository;
+    private final EmpleadoRepository empleadoRepository;
     @Override
     public UserDetailsService userDetailService() {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return usuarioRepository.findByCorreo(username).orElseThrow(
+                return empleadoRepository.findByCorreo(username).orElseThrow(
                         () -> new UsernameNotFoundException("Usuario no encontrado"));
             }
         };
@@ -28,6 +28,6 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     @Override
     public List<Empleados> getUsuarios() {
-        return usuarioRepository.findAll();
+        return empleadoRepository.findAll();
     }
 }
