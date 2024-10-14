@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MesasRepository extends JpaRepository<MesasEntity, Integer> {
+    MesasEntity findByNumeroMesa(String numeroMesa);
 }
