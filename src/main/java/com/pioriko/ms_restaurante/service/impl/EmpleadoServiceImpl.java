@@ -1,7 +1,7 @@
 package com.pioriko.ms_restaurante.service.impl;
 
 import com.pioriko.ms_restaurante.dao.EmpleadoRepository;
-import com.pioriko.ms_restaurante.entities.Empleados;
+import com.pioriko.ms_restaurante.entities.EmpleadosEntity;
 import com.pioriko.ms_restaurante.service.EmpleadoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +27,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     }
 
     @Override
-    public List<Empleados> getUsuarios() {
+    public List<EmpleadosEntity> getUsuarios() {
         return empleadoRepository.findAll();
     }
 }

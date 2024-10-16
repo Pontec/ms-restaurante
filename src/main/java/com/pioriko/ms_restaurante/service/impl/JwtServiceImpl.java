@@ -1,13 +1,12 @@
 package com.pioriko.ms_restaurante.service.impl;
 
-import com.pioriko.ms_restaurante.entities.Empleados;
+import com.pioriko.ms_restaurante.entities.EmpleadosEntity;
 import com.pioriko.ms_restaurante.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class JwtServiceImpl implements JwtService {
     ///Generar un TOKEN
     @Override
     public String generateToken(UserDetails userDetails) {
-        Empleados empleado = (Empleados) userDetails;
+        EmpleadosEntity empleado = (EmpleadosEntity) userDetails;
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("roles", empleado.getAuthorities())

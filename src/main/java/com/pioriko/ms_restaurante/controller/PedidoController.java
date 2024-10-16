@@ -1,14 +1,19 @@
 package com.pioriko.ms_restaurante.controller;
 
 import com.pioriko.ms_restaurante.agregates.dto.PedidoDTO;
+import com.pioriko.ms_restaurante.agregates.response.ResponseBase;
+import com.pioriko.ms_restaurante.entities.PedidoEntity;
 import com.pioriko.ms_restaurante.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/v1/admin/pedidos")
+@RequestMapping("api/v1/admin/pedidos")
 public class PedidoController {
 
     @Autowired
@@ -17,12 +22,15 @@ public class PedidoController {
     @PostMapping("/crear")
     public ResponseEntity<?> savePedido(@RequestBody PedidoDTO pedidoDto) {
         PedidoDTO nuevoPedido = pedidoService.savePedido(pedidoDto);
-        return new ResponseEntity<>(nuevoPedido, HttpStatus.CREATED);
+        ResponseBase responseBase = new ResponseBase(201, "Pedido Creado Correctamente", Optional.of(nuevoPedido));
+        return new ResponseEntity<>(responseBase, HttpStatus.CREATED);
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<?> listarPedidos() {
-        return new ResponseEntity<>(pedidoService.findAllPedidos(), HttpStatus.OK);
+    public ResponseEntity<ResponseBase<List<PedidoDTO>>> listarPedidos() {
+       List<PedidoDTO> lista = pedidoService.findAllPedidos();
+        ResponseBase responseBase = new ResponseBase(200, "Pedidos Listado Correctamente", Optional.of(lista));
+        return new ResponseEntity<>(responseBase, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

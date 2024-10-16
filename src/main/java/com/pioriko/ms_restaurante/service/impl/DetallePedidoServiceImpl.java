@@ -3,28 +3,41 @@ package com.pioriko.ms_restaurante.service.impl;
 import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoDTO;
 import com.pioriko.ms_restaurante.agregates.mapper.DetallePedidoMapper;
 import com.pioriko.ms_restaurante.dao.DetallePedidoRepository;
+import com.pioriko.ms_restaurante.dao.PedidoRepository;
+import com.pioriko.ms_restaurante.dao.ProductoRepository;
 import com.pioriko.ms_restaurante.entities.DetallePedidoEntity;
+import com.pioriko.ms_restaurante.entities.PedidoEntity;
+import com.pioriko.ms_restaurante.entities.ProductoEntity;
 import com.pioriko.ms_restaurante.service.DetallePedidoService;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DetallePedidoServiceImpl implements DetallePedidoService {
 
-    @Autowired
-    private DetallePedidoRepository detallePedidoRepository;
-    @Autowired
-    private DetallePedidoMapper detallePedidoMapper;
-
+    private final DetallePedidoRepository detallePedidoRepository;
+    private final DetallePedidoMapper detallePedidoMapper;
+    private final PedidoRepository pedidoRepository;
+    private final ProductoRepository productoRepository;
 
 
     @Override
     public DetallePedidoDTO saveDetallePedido(DetallePedidoDTO detallePedidoDTO) {
         // Convertir DetallePedidoDTO a DetallePedidoEntity
         DetallePedidoEntity detallePedidoEntity = detallePedidoMapper.toDetallePedidoEntity(detallePedidoDTO);
+
+        PedidoEntity pedido = pedidoRepository.findById(detallePedidoDTO.getIdPedido()).orElseThrow(()-> new NoSuchElementException("Pedido no encontrado"));
+        ProductoEntity producto = productoRepository.findById(detallePedidoDTO.getIdProducto()).orElseThrow(()-> new NoSuchElementException("Producto no encontrado"));
+
+        detallePedidoEntity.setPedido(pedido);
+        detallePedidoEntity.setProducto(producto);
         // Guardar DetallePedidoEntity en la base de datos
         return detallePedidoMapper.toDetallePedidoDTO(detallePedidoRepository.save(detallePedidoEntity));
     }
