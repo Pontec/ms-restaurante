@@ -10,7 +10,7 @@ public class DetallePedidoDTO {
     private Integer idDetallePedido;
     private Integer cantidad;
     private Double precio;
-    private Integer idPedido;   // Referencia al pedido
-    private Integer idProducto; // Referencia al producto
-    private Integer idCombo;    // Referencia al combo, si aplica
+    private Integer idPedido;
+    private Integer idProducto;
+    private Integer idCombo;
 }

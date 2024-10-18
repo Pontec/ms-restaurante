@@ -19,13 +19,14 @@ public interface DetallePedidoMapper {
             @Mapping(source = "cantidad", target = "cantidad"),
             @Mapping(source = "precio", target = "precio"),
             @Mapping(source = "pedido.idPedido", target = "idPedido"),
-            @Mapping(source = "producto.id", target = "idProducto")
+            @Mapping(source = "producto.id", target = "idProducto"),
+            @Mapping(source = "combo.idCombo", target = "idCombo")
     })
     DetallePedidoDTO toDetallePedidoDTO(DetallePedidoEntity detallePedidoEntity);
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "pedido", ignore = true),
+            //@Mapping(target = "pedido", ignore = true),
             //@Mapping(target = "producto", ignore = true)
     })
     DetallePedidoEntity toDetallePedidoEntity(DetallePedidoDTO detallePedidoDTO);

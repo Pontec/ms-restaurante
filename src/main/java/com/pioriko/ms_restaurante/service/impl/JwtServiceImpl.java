@@ -38,6 +38,7 @@ public class JwtServiceImpl implements JwtService {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("roles", empleado.getAuthorities())
+                .claim("nombre", empleado.getNombres())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 6000000))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
@@ -52,7 +53,7 @@ public class JwtServiceImpl implements JwtService {
 
 
 
-    //Metodo que te deveuvle la clave con la que se firma el token.
+    //Metodo que te devuelve la clave con la que se firma el token.
     private Key getSignKey(){
         byte[] key = Decoders.BASE64.decode(keySignature);
         return Keys.hmacShaKeyFor(key);
@@ -62,7 +63,7 @@ public class JwtServiceImpl implements JwtService {
         return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
     }
 
-    //Metodo que te deeuvle un objeto del body o tambien denomidado un Claim
+    //Metodo que te devuelve un objeto del body o tambien denomidado un Claim
     private <T> T extractClaims(String token, Function<Claims,T> claimResult){
         final Claims claims = extractAllClaims(token);
         return claimResult.apply(claims);
