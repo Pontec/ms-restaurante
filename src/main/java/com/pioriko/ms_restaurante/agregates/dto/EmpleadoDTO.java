@@ -1,8 +1,10 @@
 package com.pioriko.ms_restaurante.agregates.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmpleadoDTO {
     private Long idEmpleado;
     private String nombres;

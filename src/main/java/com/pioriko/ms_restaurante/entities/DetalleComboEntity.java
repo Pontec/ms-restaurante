@@ -9,6 +9,7 @@ import lombok.Data;
 public class DetalleComboEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_detalle_combo")
     private Integer idDetalleCombo;
 
     @ManyToOne
