@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +32,7 @@ public class EmpleadosEntity implements UserDetails {
     private String numDoc;
     private String direccion;
     private String telefono;
+    private LocalDate fechaContratacion;
 
     //private boolean accountNonExpired;
     @ManyToMany(fetch = FetchType.EAGER)

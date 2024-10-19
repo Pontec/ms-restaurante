@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         empleadosEntity.setNumDoc(signUpRequest.getNumDoc());
         empleadosEntity.setTelefono(signUpRequest.getTelefono());
         empleadosEntity.setDireccion(signUpRequest.getDireccion());
+        empleadosEntity.setFechaContratacion(LocalDate.now());
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.MOZO.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);
@@ -78,6 +80,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         empleadosEntity.setNumDoc(signUpRequest.getNumDoc());
         empleadosEntity.setTelefono(signUpRequest.getTelefono());
         empleadosEntity.setDireccion(signUpRequest.getDireccion());
+        empleadosEntity.setFechaContratacion(LocalDate.now());
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.CAJA.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);
@@ -95,6 +98,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         empleadosEntity.setNumDoc(signUpRequest.getNumDoc());
         empleadosEntity.setTelefono(signUpRequest.getTelefono());
         empleadosEntity.setDireccion(signUpRequest.getDireccion());
+        empleadosEntity.setFechaContratacion(LocalDate.now());
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.COCINERO.name()).orElseThrow(()-> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);
