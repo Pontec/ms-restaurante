@@ -10,4 +10,6 @@ public interface DetallePedidoService {
     DetallePedidoDTO getDetallePedidoById(Integer id);
     void deleteDetallePedidoById(Integer id);
     DetallePedidoDTO updateDetallePedido(Integer id, DetallePedidoDTO detallePedidoDTO);
+    List<DetallePedidoDTO> saveAllDetallePedidos(List<DetallePedidoDTO> detallePedidoDTOs);
+
 }

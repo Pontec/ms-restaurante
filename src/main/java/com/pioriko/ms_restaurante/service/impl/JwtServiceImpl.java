@@ -19,6 +19,7 @@ import java.util.function.Function;
 public class JwtServiceImpl implements JwtService {
 
     private final EmpleadoServiceImpl empleadoServiceImpl;
+
     @Value("${key.signature}")
     private String keySignature;
 
@@ -39,6 +40,7 @@ public class JwtServiceImpl implements JwtService {
                 .setSubject(userDetails.getUsername())
                 .claim("roles", empleado.getAuthorities())
                 .claim("nombre", empleado.getNombres())
+                .claim("id", empleado.getId())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 6000000))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
@@ -58,7 +60,7 @@ public class JwtServiceImpl implements JwtService {
         byte[] key = Decoders.BASE64.decode(keySignature);
         return Keys.hmacShaKeyFor(key);
     }
-    //Metodo apra extraer el Payload del token, requiere firmarse para poder acceder al contenido.
+    //Metodo para extraer el Payload del token, requiere firmarse para poder acceder al contenido.
     private Claims extractAllClaims(String token){
         return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
     }

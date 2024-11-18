@@ -71,4 +71,15 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
         }
         return null;
     }
+
+    @Override
+    public List<DetallePedidoDTO> saveAllDetallePedidos(List<DetallePedidoDTO> detallePedidoDTOs) {
+        List<DetallePedidoEntity> entities = detallePedidoDTOs.stream()
+                .map(detallePedidoMapper::toDetallePedidoEntity)
+                .collect(Collectors.toList());
+        List<DetallePedidoEntity> savedEntities = detallePedidoRepository.saveAll(entities);
+        return savedEntities.stream()
+                .map(detallePedidoMapper::toDetallePedidoDTO)
+                .collect(Collectors.toList());
+    }
 }

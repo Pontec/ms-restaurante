@@ -115,7 +115,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse signin(SignInRequest signInRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                signInRequest.getEmail(),signInRequest.getPassword()));
+                signInRequest.getEmail(), signInRequest.getPassword()));
         var user = empleadoRepository.findByCorreo(signInRequest.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Email no valido"));
 
