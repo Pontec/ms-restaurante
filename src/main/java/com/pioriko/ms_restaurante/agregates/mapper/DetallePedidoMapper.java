@@ -1,6 +1,7 @@
 package com.pioriko.ms_restaurante.agregates.mapper;
 
 import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoDTO;
+import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoResponseDTO;
 import com.pioriko.ms_restaurante.entities.DetallePedidoEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -34,4 +35,16 @@ public interface DetallePedidoMapper {
             //@Mapping(target = "producto", ignore = true)
     })
     DetallePedidoEntity toDetallePedidoEntity(DetallePedidoDTO detallePedidoDTO);
+
+
+    @Mappings({
+            @Mapping(source = "idDetallePedido", target = "idDetallePedido"),
+            @Mapping(source = "cantidad", target = "cantidad"),
+            @Mapping(source = "precio", target = "precio"),
+            @Mapping(source = "pedido", target = "pedido"),
+            @Mapping(source = "producto", target = "producto"),
+            @Mapping(source = "combo", target = "combo")
+    })
+    DetallePedidoResponseDTO toDetallePedidoResponseDTO(DetallePedidoEntity detallePedidoEntity);
+
 }

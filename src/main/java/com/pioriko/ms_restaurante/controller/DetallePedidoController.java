@@ -29,7 +29,8 @@ public class DetallePedidoController {
 
     @GetMapping("/todos")
     public ResponseEntity<?> listarDetallePedidos() {
-        return ResponseEntity.ok(detallePedidoService.getAllDetallePedidos());
+        ResponseBase responseBase = new ResponseBase(200, "Lista de detalle de pedidos", Optional.of(detallePedidoService.getAllDetallePedidos()));
+        return new ResponseEntity<>(responseBase, HttpStatus.OK);
     }
 
     @PostMapping("/buscar/{id}")
