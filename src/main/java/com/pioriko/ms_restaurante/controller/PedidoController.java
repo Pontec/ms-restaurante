@@ -1,6 +1,7 @@
 package com.pioriko.ms_restaurante.controller;
 
 import com.pioriko.ms_restaurante.agregates.dto.PedidoDTO;
+import com.pioriko.ms_restaurante.agregates.dto.PedidoResponseDTO;
 import com.pioriko.ms_restaurante.agregates.response.ResponseBase;
 import com.pioriko.ms_restaurante.entities.PedidoEntity;
 import com.pioriko.ms_restaurante.service.PedidoService;
@@ -27,8 +28,8 @@ public class PedidoController {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<ResponseBase<List<PedidoDTO>>> listarPedidos() {
-       List<PedidoDTO> lista = pedidoService.findAllPedidos();
+    public ResponseEntity<ResponseBase<List<PedidoResponseDTO>>> listarPedidos() {
+       List<PedidoResponseDTO> lista = pedidoService.findAllPedidos();
         ResponseBase responseBase = new ResponseBase(200, "Pedidos Listado Correctamente", Optional.of(lista));
         return new ResponseEntity<>(responseBase, HttpStatus.OK);
     }

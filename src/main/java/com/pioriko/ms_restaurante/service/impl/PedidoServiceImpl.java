@@ -1,6 +1,7 @@
 package com.pioriko.ms_restaurante.service.impl;
 
 import com.pioriko.ms_restaurante.agregates.dto.PedidoDTO;
+import com.pioriko.ms_restaurante.agregates.dto.PedidoResponseDTO;
 import com.pioriko.ms_restaurante.agregates.mapper.PedidoMapper;
 import com.pioriko.ms_restaurante.dao.ClienteRepository;
 import com.pioriko.ms_restaurante.dao.EmpleadoRepository;
@@ -53,10 +54,12 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public List<PedidoDTO> findAllPedidos() {
+    public List<PedidoResponseDTO> findAllPedidos() {
         List<PedidoEntity> pedidoEntity = pedidoRepository.findAll();
-        //System.out.println("lista de pedidos: " + pedidoEntity);
-        return pedidoEntity.stream().map(pedidoMapper::mapToPedidoDto).collect(Collectors.toList());
+        return pedidoMapper.mapToPedidoResponseDto(pedidoEntity);
+
+//        List<PedidoEntity> pedidos = pedidoRepository.findAllPedidosConDetalles();
+//    return pedidoMapper.mapToPedidoResponseDto(pedidos);
     }
 
     @Override
