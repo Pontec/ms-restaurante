@@ -35,8 +35,10 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> obtenerPedido(@PathVariable Integer id) {
-        return new ResponseEntity<>(pedidoService.findPedidoById(id), HttpStatus.OK);
+    public ResponseEntity<ResponseBase<PedidoResponseDTO>> obtenerPedido(@PathVariable Integer id) {
+        ResponseBase responseBase = new ResponseBase
+                (200, "Pedido Encontrado", Optional.of(pedidoService.findPedidoById(id)));
+        return new ResponseEntity<>(responseBase, HttpStatus.OK);
     }
 
     @DeleteMapping("eliminar/{id}")

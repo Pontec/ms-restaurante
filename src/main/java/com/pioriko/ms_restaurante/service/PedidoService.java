@@ -9,7 +9,7 @@ public interface PedidoService {
 
     PedidoDTO savePedido(PedidoDTO pedidoDTO);
     List<PedidoResponseDTO> findAllPedidos();
-    PedidoDTO findPedidoById(Integer id);
+    PedidoResponseDTO findPedidoById(Integer id);
     void deletePedidoById(Integer id);
     PedidoDTO updatePedido(Integer id, PedidoDTO pedidoDTO);
 }

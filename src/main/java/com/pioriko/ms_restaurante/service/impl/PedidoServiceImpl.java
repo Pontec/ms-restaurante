@@ -63,9 +63,9 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public PedidoDTO findPedidoById(Integer id) {
-        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElse(null);
-        return pedidoEntity != null ? pedidoMapper.mapToPedidoDto(pedidoEntity) : null;
+    public PedidoResponseDTO findPedidoById(Integer id) {
+        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pedido no encontrado"));
+        return pedidoEntity != null ? pedidoMapper.mapToPedidoResponseDto(pedidoEntity) : null;
     }
 
     @Override
