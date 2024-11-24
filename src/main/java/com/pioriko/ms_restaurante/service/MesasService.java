@@ -10,4 +10,5 @@ public interface MesasService {
     List<MesasDTO> findAll();
     MesasDTO update(Integer id, MesasDTO mesasDTO);
     void delete(Integer id);
+    MesasDTO updateEstadoMesa(Integer id, MesasDTO mesasDTO);
 }

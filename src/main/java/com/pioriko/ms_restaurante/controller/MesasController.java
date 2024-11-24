@@ -52,4 +52,11 @@ public class MesasController {
         ResponseBase responseBase = new ResponseBase(200, "Mesa Actualizada", Optional.of(mesas));
         return new ResponseEntity<>(responseBase, HttpStatus.OK);
     }
+
+    @PutMapping("/actualizar/{id}/estado")
+    public ResponseEntity<ResponseBase<MesasDTO>> actualizarEstadoMesa(@PathVariable Integer id, @RequestBody MesasDTO mesasDTO) {
+        MesasDTO mesas = mesasService.updateEstadoMesa(id, mesasDTO);
+        ResponseBase responseBase = new ResponseBase(200, "Estado de la mesa actualizado", Optional.of(mesas));
+        return new ResponseEntity<>(responseBase, HttpStatus.OK);
+    }
 }

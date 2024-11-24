@@ -59,4 +59,11 @@ public class MesasServiceImpl implements MesasService {
             mesasRepository.delete(existe);
         }
     }
+
+    @Override
+    public MesasDTO updateEstadoMesa(Integer id, MesasDTO mesasDTO) {
+        MesasEntity mesas = mesasRepository.findById(id).orElseThrow(()-> new NoSuchElementException("Mesa no encontrada"));
+        mesas.setEstado(mesasDTO.getEstado());
+        return mesasMapper.mapToMesasDTO(mesasRepository.save(mesas));
+    }
 }

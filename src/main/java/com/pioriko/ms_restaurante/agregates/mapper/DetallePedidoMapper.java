@@ -1,6 +1,7 @@
 package com.pioriko.ms_restaurante.agregates.mapper;
 
 import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoDTO;
+import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoResponseDTO;
 import com.pioriko.ms_restaurante.entities.DetallePedidoEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -13,8 +14,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DetallePedidoMapper {
 
-    //Aqui se mapean los atributos de la entidad a los atributos del DTO
-    DetallePedidoMapper INSTANCE = Mappers.getMapper(DetallePedidoMapper.class);
 
     @Mappings({
             @Mapping(source = "idDetallePedido", target = "idDetallePedido"),
@@ -25,13 +24,25 @@ public interface DetallePedidoMapper {
             @Mapping(source = "combo.idCombo", target = "idCombo")
     })
     DetallePedidoDTO toDetallePedidoDTO(DetallePedidoEntity detallePedidoEntity);
-
-
+    //sirve para mapear de una entidad a un dto para poder mostrar en la respuesta
 
     @InheritInverseConfiguration
     @Mappings({
             //@Mapping(target = "pedido", ignore = true),
-            //@Mapping(target = "producto", ignore = true)
+            //@Mapping(target = "producto", ignore = true),
+    //@Mapping(target = "combo", ignore = true)
     })
     DetallePedidoEntity toDetallePedidoEntity(DetallePedidoDTO detallePedidoDTO);
+    //sirve para mapear de un dto a una entidad para poder guardar en la base de datos
+
+
+    @Mappings({
+            @Mapping(source = "idDetallePedido", target = "idDetallePedido"),
+            @Mapping(source = "cantidad", target = "cantidad"),
+            @Mapping(source = "precio", target = "precio"),
+            @Mapping(source = "producto", target = "producto"),
+            @Mapping(source = "combo", target = "combo")
+    })
+    DetallePedidoResponseDTO toDetallePedidoResponseDTO(DetallePedidoEntity detallePedidoEntity);
+
 }

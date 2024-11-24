@@ -1,6 +1,7 @@
 package com.pioriko.ms_restaurante.controller;
 
 import com.pioriko.ms_restaurante.agregates.dto.PedidoDTO;
+import com.pioriko.ms_restaurante.agregates.dto.PedidoResponseDTO;
 import com.pioriko.ms_restaurante.agregates.response.ResponseBase;
 import com.pioriko.ms_restaurante.entities.PedidoEntity;
 import com.pioriko.ms_restaurante.service.PedidoService;
@@ -27,15 +28,17 @@ public class PedidoController {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<ResponseBase<List<PedidoDTO>>> listarPedidos() {
-       List<PedidoDTO> lista = pedidoService.findAllPedidos();
+    public ResponseEntity<ResponseBase<List<PedidoResponseDTO>>> listarPedidos() {
+       List<PedidoResponseDTO> lista = pedidoService.findAllPedidos();
         ResponseBase responseBase = new ResponseBase(200, "Pedidos Listado Correctamente", Optional.of(lista));
         return new ResponseEntity<>(responseBase, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> obtenerPedido(@PathVariable Integer id) {
-        return new ResponseEntity<>(pedidoService.findPedidoById(id), HttpStatus.OK);
+    public ResponseEntity<ResponseBase<PedidoResponseDTO>> obtenerPedido(@PathVariable Integer id) {
+        ResponseBase responseBase = new ResponseBase
+                (200, "Pedido Encontrado", Optional.of(pedidoService.findPedidoById(id)));
+        return new ResponseEntity<>(responseBase, HttpStatus.OK);
     }
 
     @DeleteMapping("eliminar/{id}")

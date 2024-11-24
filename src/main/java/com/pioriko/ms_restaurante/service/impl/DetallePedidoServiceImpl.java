@@ -1,6 +1,7 @@
 package com.pioriko.ms_restaurante.service.impl;
 
 import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoDTO;
+import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoResponseDTO;
 import com.pioriko.ms_restaurante.agregates.mapper.DetallePedidoMapper;
 import com.pioriko.ms_restaurante.dao.ComboRepository;
 import com.pioriko.ms_restaurante.dao.DetallePedidoRepository;
@@ -47,8 +48,8 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
     }
 
     @Override
-    public List<DetallePedidoDTO> getAllDetallePedidos() {
-        return detallePedidoRepository.findAll().stream().map(detallePedidoMapper::toDetallePedidoDTO).collect(Collectors.toList());
+    public List<DetallePedidoResponseDTO> getAllDetallePedidos() {
+        return detallePedidoRepository.findAll().stream().map(detallePedidoMapper::toDetallePedidoResponseDTO).collect(Collectors.toList());
     }
 
     @Override

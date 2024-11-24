@@ -46,7 +46,7 @@ public class PedidoEntity {
     @JoinColumn(name = "id_mesa", insertable = false, updatable = false)
     private MesasEntity mesa;
 
-    @OneToMany(mappedBy = "pedido", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<DetallePedidoEntity> listDetallePedidos;
 
 }
