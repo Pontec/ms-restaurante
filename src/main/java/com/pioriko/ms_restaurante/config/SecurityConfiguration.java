@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/autenticacion/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                       // .requestMatchers("/ws/**").permitAll()
+                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasAnyAuthority(Role.ADMIN.name())
                         .requestMatchers("/api/v1/moso/**").hasAnyAuthority(Role.MOZO.name(), Role.ADMIN.name())
                         .requestMatchers("/api/v1/caja/**").hasAnyAuthority(Role.CAJA.name(), Role.ADMIN.name())

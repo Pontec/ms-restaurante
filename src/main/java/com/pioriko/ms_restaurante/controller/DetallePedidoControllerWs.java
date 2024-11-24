@@ -2,6 +2,8 @@ package com.pioriko.ms_restaurante.controller;
 
 
 import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoDTO;
+import com.pioriko.ms_restaurante.agregates.dto.ProductoDTO;
+import com.pioriko.ms_restaurante.agregates.request.PedidoDetalleRequest;
 import com.pioriko.ms_restaurante.agregates.response.ResponseBase;
 import com.pioriko.ms_restaurante.service.DetallePedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,9 @@ public class DetallePedidoControllerWs {
 
     @MessageMapping("/save")
     @SendTo("/topic/pedidos")
-    public ResponseEntity<?> crearDetallePedido(@RequestBody DetallePedidoDTO detallePedidoDTO) {
-        DetallePedidoDTO detallePedido = detallePedidoService.saveDetallePedido(detallePedidoDTO);
-        ResponseBase responseBase = new ResponseBase(201, "Detalle de pedido creado correctamente", Optional.of(detallePedido));
-        return new ResponseEntity(responseBase, HttpStatus.ACCEPTED);
+    public ResponseEntity<?> crearDetallePedido(@RequestBody PedidoDetalleRequest pedidoDetalleRequest) {
+        //DetallePedidoDTO detallePedido = detallePedidoService.saveDetallePedido(detallePedidoDTO);
+        //ResponseBase responseBase = new ResponseBase(201, "Detalle de pedido creado correctamente", Optional.of(detallePedido));
+        return new ResponseEntity(pedidoDetalleRequest, HttpStatus.ACCEPTED);
     }
 }
