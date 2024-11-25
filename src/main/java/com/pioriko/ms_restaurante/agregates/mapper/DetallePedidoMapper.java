@@ -20,7 +20,7 @@ public interface DetallePedidoMapper {
             @Mapping(source = "cantidad", target = "cantidad"),
             @Mapping(source = "precio", target = "precio"),
             @Mapping(source = "pedido.idPedido", target = "idPedido"),
-            @Mapping(source = "producto.id", target = "idProducto"),
+            @Mapping(source = "producto", target = "producto"),
             @Mapping(source = "combo.idCombo", target = "idCombo")
     })
     DetallePedidoDTO toDetallePedidoDTO(DetallePedidoEntity detallePedidoEntity);

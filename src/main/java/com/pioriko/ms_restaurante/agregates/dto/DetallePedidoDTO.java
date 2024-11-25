@@ -13,4 +13,5 @@ public class DetallePedidoDTO {
     private Integer idPedido;
     private Integer idProducto;
     private Integer idCombo;
+    private ProductoDTO producto;
 }
