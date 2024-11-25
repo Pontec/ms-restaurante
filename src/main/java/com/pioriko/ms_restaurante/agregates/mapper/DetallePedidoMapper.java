@@ -28,9 +28,9 @@ public interface DetallePedidoMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            //@Mapping(target = "pedido", ignore = true),
-            //@Mapping(target = "producto", ignore = true),
-    //@Mapping(target = "combo", ignore = true)
+            @Mapping(target = "pedido.idPedido", source = "idPedido"),
+            @Mapping(target = "producto", source = "producto"),
+            @Mapping(target = "combo.idCombo", source = "idCombo")
     })
     DetallePedidoEntity toDetallePedidoEntity(DetallePedidoDTO detallePedidoDTO);
     //sirve para mapear de un dto a una entidad para poder guardar en la base de datos

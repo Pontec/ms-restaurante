@@ -75,9 +75,23 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
 
     @Override
     public List<DetallePedidoDTO> saveAllDetallePedidos(List<DetallePedidoDTO> detallePedidoDTOs) {
-        List<DetallePedidoEntity> entities = detallePedidoDTOs.stream()
-                .map(detallePedidoMapper::toDetallePedidoEntity)
-                .collect(Collectors.toList());
+        List<DetallePedidoEntity> entities = detallePedidoDTOs.stream().map(detallePedidoDTO -> {
+            DetallePedidoEntity detallePedidoEntity = detallePedidoMapper.toDetallePedidoEntity(detallePedidoDTO);
+
+            PedidoEntity pedido = pedidoRepository.findById(detallePedidoDTO.getIdPedido())
+                    .orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
+            ProductoEntity producto = productoRepository.findById(detallePedidoDTO.getIdProducto())
+                    .orElseThrow(() -> new NoSuchElementException("Producto no encontrado"));
+            CombosEntity combos = comboRepository.findById(detallePedidoDTO.getIdCombo())
+                    .orElseThrow(() -> new NoSuchElementException("Combo no encontrado"));
+
+            detallePedidoEntity.setPedido(pedido);
+            detallePedidoEntity.setProducto(producto);
+            detallePedidoEntity.setCombo(combos);
+
+            return detallePedidoEntity;
+        }).collect(Collectors.toList());
+
         List<DetallePedidoEntity> savedEntities = detallePedidoRepository.saveAll(entities);
         return savedEntities.stream()
                 .map(detallePedidoMapper::toDetallePedidoDTO)
