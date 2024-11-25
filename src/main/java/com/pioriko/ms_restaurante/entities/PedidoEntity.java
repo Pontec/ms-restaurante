@@ -33,6 +33,8 @@ public class PedidoEntity {
     private Long idEmpleado;
     @Column(name = "id_mesa")
     private Integer idMesa;
+    @Column(name = "id_cliente")
+    private Integer idCliente;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente", insertable = false, updatable = false)

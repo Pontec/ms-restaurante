@@ -19,7 +19,7 @@ public interface PedidoMapper {
             @Mapping(source = "horaPedido", target = "horaPedido"),
             @Mapping(source = "estado", target = "estado"),
             @Mapping(source = "observaciones", target = "observaciones"),
-            @Mapping(source = "cliente.idCliente", target = "idCliente"),
+            @Mapping(source = "idCliente", target = "idCliente"),
             @Mapping(source = "idEmpleado", target = "idEmpleado"),
             @Mapping(source = "idMesa", target = "idMesa"),
             @Mapping(source = "listDetallePedidos", target = "detallePedidos")
