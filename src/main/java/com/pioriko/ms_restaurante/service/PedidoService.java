@@ -12,4 +12,5 @@ public interface PedidoService {
     PedidoResponseDTO findPedidoById(Integer id);
     void deletePedidoById(Integer id);
     PedidoDTO updatePedido(Integer id, PedidoDTO pedidoDTO);
+    PedidoDTO updateEstadoPedido(Integer id, PedidoDTO pedidoDTO);
 }

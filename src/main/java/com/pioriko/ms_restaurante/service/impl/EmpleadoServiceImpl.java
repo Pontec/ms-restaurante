@@ -2,6 +2,7 @@ package com.pioriko.ms_restaurante.service.impl;
 
 import com.pioriko.ms_restaurante.agregates.clients.ClientReniec;
 import com.pioriko.ms_restaurante.agregates.dto.EmpleadoDTO;
+import com.pioriko.ms_restaurante.agregates.request.SignUpRequest;
 import com.pioriko.ms_restaurante.agregates.response.ResponseReniec;
 import com.pioriko.ms_restaurante.dao.EmpleadoRepository;
 import com.pioriko.ms_restaurante.entities.ClientesEntity;
@@ -12,9 +13,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +60,21 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         return null;
     }
 
+    @Override
+    public EmpleadosEntity updateEmpleado(Long id, SignUpRequest signUpRequest) {
+        EmpleadosEntity empleado = empleadoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Empleado no encontrado"));
+
+        empleado.setNombres(signUpRequest.getNombres());
+        empleado.setApellidos(signUpRequest.getApellidos());
+        empleado.setCorreo(signUpRequest.getEmail());
+        empleado.setNumDoc(signUpRequest.getNumDoc());
+        empleado.setDireccion(signUpRequest.getDireccion());
+        empleado.setTelefono(signUpRequest.getTelefono());
+        empleado.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
+
+        return empleadoRepository.save(empleado);
+    }
 
 
     //Metodos de apoyo siempre privado

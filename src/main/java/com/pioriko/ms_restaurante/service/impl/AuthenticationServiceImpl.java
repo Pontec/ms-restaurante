@@ -57,6 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         empleadosEntity.setNumDoc(signUpRequest.getNumDoc());
         empleadosEntity.setTelefono(signUpRequest.getTelefono());
         empleadosEntity.setDireccion(signUpRequest.getDireccion());
+        empleadosEntity.setFechaContratacion(LocalDate.now());
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.ADMIN.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         Rol userRol2 = rolRepository.findByNombreRol(Role.COCINERO.name()).orElseThrow(()-> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
@@ -99,6 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         empleadosEntity.setTelefono(signUpRequest.getTelefono());
         empleadosEntity.setDireccion(signUpRequest.getDireccion());
         empleadosEntity.setFechaContratacion(LocalDate.now());
+
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.COCINERO.name()).orElseThrow(()-> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);

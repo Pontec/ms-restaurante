@@ -89,4 +89,16 @@ public class PedidoServiceImpl implements PedidoService {
 
         return null;
     }
+
+    @Override
+    public PedidoDTO updateEstadoPedido(Integer id, PedidoDTO pedidoDTO) {
+        PedidoEntity pedido = pedidoRepository.findById(id).orElse(null);
+
+        if(pedido != null) {
+            pedido.setEstado(pedidoDTO.getEstado());
+            PedidoEntity pedidoUpdated = pedidoRepository.save(pedido);
+            return pedidoMapper.mapToPedidoDto(pedidoUpdated);
+        }
+        return null;
+    }
 }
