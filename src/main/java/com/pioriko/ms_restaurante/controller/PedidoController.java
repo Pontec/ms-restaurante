@@ -53,4 +53,10 @@ public class PedidoController {
         return new ResponseEntity<>(pedidoActualizado, HttpStatus.OK);
     }
 
+    @PutMapping("/actualizar/estado/{id}")
+    public ResponseEntity<?> actualizarEstadoPedido(@PathVariable Integer id, @RequestBody PedidoDTO pedidoDto) {
+        PedidoDTO pedidoActualizado = pedidoService.updateEstadoPedido(id, pedidoDto);
+        return new ResponseEntity<>(pedidoActualizado, HttpStatus.OK);
+    }
+
 }
