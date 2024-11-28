@@ -2,6 +2,7 @@ package com.pioriko.ms_restaurante.controller;
 
 
 import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoDTO;
+import com.pioriko.ms_restaurante.agregates.dto.PedidoResponseDTO;
 import com.pioriko.ms_restaurante.agregates.dto.ProductoDTO;
 import com.pioriko.ms_restaurante.agregates.request.PedidoDetalleRequest;
 import com.pioriko.ms_restaurante.agregates.response.ResponseBase;
@@ -22,11 +23,40 @@ public class DetallePedidoControllerWs {
     private DetallePedidoService detallePedidoService;
 
 
-    @MessageMapping("/save")
-    @SendTo("/topic/pedidos")
-    public ResponseEntity<?> crearDetallePedido(@RequestBody PedidoDetalleRequest pedidoDetalleRequest) {
+    @MessageMapping("/mozo/cocina")
+    @SendTo("/topic/pedidos/cocina")
+    public ResponseEntity<?> enviarPedidoACocina(@RequestBody PedidoResponseDTO pedidoResponseDTO) {
         //DetallePedidoDTO detallePedido = detallePedidoService.saveDetallePedido(detallePedidoDTO);
         //ResponseBase responseBase = new ResponseBase(201, "Detalle de pedido creado correctamente", Optional.of(detallePedido));
-        return new ResponseEntity(pedidoDetalleRequest, HttpStatus.ACCEPTED);
+        return new ResponseEntity(pedidoResponseDTO, HttpStatus.ACCEPTED);
     }
+
+    @MessageMapping("/cocina/mozo")
+    @SendTo("/topic/pedidos/mozo")
+    public ResponseEntity<?> actualizarPedidoDesdeCocina(@RequestBody PedidoResponseDTO pedidoResponseDTO) {
+        //DetallePedidoDTO detallePedido = detallePedidoService.saveDetallePedido(detallePedidoDTO);
+        //ResponseBase responseBase = new ResponseBase(201, "Detalle de pedido creado correctamente", Optional.of(detallePedido));
+        return new ResponseEntity(pedidoResponseDTO, HttpStatus.ACCEPTED);
+    }
+
+
+    @MessageMapping("/mozo/caja")
+    @SendTo("/topic/pedidos/caja")
+    public ResponseEntity<?> enviarPedidoACaja(@RequestBody PedidoResponseDTO pedidoResponseDTO) {
+        //DetallePedidoDTO detallePedido = detallePedidoService.saveDetallePedido(detallePedidoDTO);
+        //ResponseBase responseBase = new ResponseBase(201, "Detalle de pedido creado correctamente", Optional.of(detallePedido));
+        return new ResponseEntity(pedidoResponseDTO, HttpStatus.ACCEPTED);
+    }
+
+    @MessageMapping("/update")
+    @SendTo("/topic/pedidos")
+    public ResponseEntity<?> updatePedido(@RequestBody PedidoResponseDTO pedidoResponseDTO) {
+        //DetallePedidoDTO detallePedido = detallePedidoService.saveDetallePedido(detallePedidoDTO);
+        //ResponseBase responseBase = new ResponseBase(201, "Detalle de pedido creado correctamente", Optional.of(detallePedido));
+        return new ResponseEntity(pedidoResponseDTO, HttpStatus.ACCEPTED);
+    }
+
+
+
+
 }
