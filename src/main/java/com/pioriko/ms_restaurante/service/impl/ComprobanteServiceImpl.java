@@ -28,8 +28,6 @@ public class ComprobanteServiceImpl implements ComprobanteService {
                 "resources" + File.separator + "templates" + File.separator + "report" + File.separator +
                 "Report.jrxml";
         File reportFile = ResourceUtils.getFile(filePath);
-
-        //final File imgLogo = ResourceUtils.getFile("classpath:/images/logo.jpg");
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
@@ -40,11 +38,6 @@ public class ComprobanteServiceImpl implements ComprobanteService {
         parametros.put("nombre_cliente", pedido.getCliente().getNombre());
         parametros.put("fecha", formatter.format(now));
 
-        System.out.println("Cantidad de productos: " + pedido.getDetallePedidos().size());
-    pedido.getDetallePedidos().forEach(detalle -> {
-        System.out.println("Producto original: " + detalle.getProducto().getNombre());
-    });
-
         List<ProductoReporteDTO> productosDetalles = pedido.getDetallePedidos().stream()
         .map(detalle -> {
             double montoTotal = detalle.getCantidad() * detalle.getProducto().getPrecio();
@@ -54,26 +47,13 @@ public class ComprobanteServiceImpl implements ComprobanteService {
                 detalle.getProducto().getPrecio(),
                 montoTotal
             );
-            // Debug para verificar mapping
-            System.out.println("Producto mapeado: " + dto.getProducto());
             return dto;
         })
                 .collect(Collectors.toList());
-        
-                System.out.println("Productos en lista final: " + productosDetalles.size());
-    productosDetalles.forEach(p -> {
-        System.out.println("Producto en lista: " + p.getProducto() + ", Cantidad: " + p.getCantidad());
-    });
-
         JRBeanCollectionDataSource productosDataSource = new JRBeanCollectionDataSource(productosDetalles, false);
-
         parametros.put("productos", productosDataSource);
-        parametros.put("medio_pago", "Efectivo");
-        parametros.put("sub_total", calcularSubtotal(pedido));
         parametros.put("total", calcularTotal(pedido));
         parametros.put("imageDir", "classpath:/images/");
-
-        // Generar reporte
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(reportFile.getAbsolutePath());
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, productosDataSource);
@@ -83,20 +63,11 @@ public class ComprobanteServiceImpl implements ComprobanteService {
             throw new RuntimeException("Error al llenar el reporte: " + e.getMessage());
         }
     }
-
-    private String calcularSubtotal(PedidoResponseDTO pedido) {
-        double subtotal = pedido.getDetallePedidos().stream()
+    private String  calcularTotal(PedidoResponseDTO pedido) {
+        double total = pedido.getDetallePedidos().stream()
             .mapToDouble(detalle -> detalle.getCantidad() * detalle.getProducto().getPrecio())
             .sum();
-        return String.format("%.2f", subtotal);
-    }
-
-    private String calcularTotal(PedidoResponseDTO pedido) {
-        double subtotal = pedido.getDetallePedidos().stream()
-            .mapToDouble(detalle -> detalle.getCantidad() * detalle.getProducto().getPrecio())
-            .sum();
-        double tax = subtotal * 0.18; // Assuming a tax rate of 18%
-        double total = subtotal + tax;
         return String.format("%.2f", total);
     }
+
 }
