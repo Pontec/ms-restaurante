@@ -4,5 +4,6 @@ public enum EstadoPedido {
     PENDIENTE,
     EN_PREPARACION,
     ENTREGADO,
-    CANCELADO
+    CANCELADO,
+    PAGADO, //se utilizara para los pedidos que ya fueron pagados
 }

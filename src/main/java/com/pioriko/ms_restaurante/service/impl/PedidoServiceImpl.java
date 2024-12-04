@@ -11,17 +11,13 @@ import com.pioriko.ms_restaurante.entities.*;
 import com.pioriko.ms_restaurante.entities.enu.EstadoPedido;
 import com.pioriko.ms_restaurante.service.PedidoService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -108,7 +104,7 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public Double getTotalPagadoHoy() {
         LocalDate fechaActual = LocalDate.now();
-        List<PedidoEntity> pedidos = pedidoRepository.findByEstadoAndFechaBetween(EstadoPedido.ENTREGADO, fechaActual, fechaActual);
+        List<PedidoEntity> pedidos = pedidoRepository.findByEstadoAndFechaBetween(EstadoPedido.PAGADO, fechaActual, fechaActual);
         return pedidos.stream()
                 .flatMap(pedido -> pedido.getListDetallePedidos().stream())
                 .mapToDouble(DetallePedidoEntity::getTotalPrice)
