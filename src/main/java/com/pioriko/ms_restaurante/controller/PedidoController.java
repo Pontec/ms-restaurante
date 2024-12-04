@@ -59,4 +59,17 @@ public class PedidoController {
         return new ResponseEntity<>(pedidoActualizado, HttpStatus.OK);
     }
 
+    @GetMapping("/total-pagado-hoy")
+    public ResponseEntity<ResponseBase<Double>> getTotalPagadoHoy(){
+        Double totalPagado = pedidoService.getTotalPagadoHoy();
+        if(totalPagado == null) {
+            ResponseBase responseBase = new ResponseBase(204, "No hay ventas hoy", Optional.empty());
+            return new ResponseEntity<>(responseBase, HttpStatus.NO_CONTENT);
+        }
+        ResponseBase responseBase = new ResponseBase(200, "Total Pagado Hoy", Optional.of(totalPagado));
+        return new ResponseEntity<>(responseBase, HttpStatus.OK);
+    }
+
+
+
 }

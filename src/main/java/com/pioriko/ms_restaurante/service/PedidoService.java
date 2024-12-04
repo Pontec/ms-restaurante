@@ -15,5 +15,6 @@ public interface PedidoService {
     PedidoDTO updatePedido(Integer id, PedidoDTO pedidoDTO);
     PedidoResponseDTO updateEstadoPedido(Integer id, PedidoDTO pedidoDTO);
 
+    Double getTotalPagadoHoy();
 
 }

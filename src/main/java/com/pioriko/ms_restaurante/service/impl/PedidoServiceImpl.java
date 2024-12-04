@@ -7,10 +7,8 @@ import com.pioriko.ms_restaurante.dao.ClienteRepository;
 import com.pioriko.ms_restaurante.dao.EmpleadoRepository;
 import com.pioriko.ms_restaurante.dao.MesasRepository;
 import com.pioriko.ms_restaurante.dao.PedidoRepository;
-import com.pioriko.ms_restaurante.entities.ClientesEntity;
-import com.pioriko.ms_restaurante.entities.EmpleadosEntity;
-import com.pioriko.ms_restaurante.entities.MesasEntity;
-import com.pioriko.ms_restaurante.entities.PedidoEntity;
+import com.pioriko.ms_restaurante.entities.*;
+import com.pioriko.ms_restaurante.entities.enu.EstadoPedido;
 import com.pioriko.ms_restaurante.service.PedidoService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.NoArgsConstructor;
@@ -18,6 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -47,6 +48,8 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setCliente(cliente);
         pedido.setEmpleados(empleado);
         pedido.setMesa(mesa);
+        pedido.setHoraPedido(LocalTime.now());
+        pedido.setFechaPedido(LocalDate.now());
 
         PedidoEntity pedidoEntity = pedidoRepository.save(pedido);
         // Guardar el pedido
@@ -102,5 +105,14 @@ public class PedidoServiceImpl implements PedidoService {
         return null;
     }
 
+    @Override
+    public Double getTotalPagadoHoy() {
+        LocalDate fechaActual = LocalDate.now();
+        List<PedidoEntity> pedidos = pedidoRepository.findByEstadoAndFechaBetween(EstadoPedido.ENTREGADO, fechaActual, fechaActual);
+        return pedidos.stream()
+                .flatMap(pedido -> pedido.getListDetallePedidos().stream())
+                .mapToDouble(DetallePedidoEntity::getTotalPrice)
+                .sum();
+    }
 
 }

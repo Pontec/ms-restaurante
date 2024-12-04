@@ -30,4 +30,8 @@ public class DetallePedidoEntity {
     @JoinColumn(name = "id_combo")
     private CombosEntity combo;
 
+    public Double getTotalPrice() {
+        return this.precio * this.cantidad;
+    }
+
 }
