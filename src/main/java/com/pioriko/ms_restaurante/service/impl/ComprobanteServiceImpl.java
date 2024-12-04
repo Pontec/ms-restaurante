@@ -1,6 +1,7 @@
 package com.pioriko.ms_restaurante.service.impl;
 
 import com.pioriko.ms_restaurante.agregates.dto.PedidoResponseDTO;
+import com.pioriko.ms_restaurante.agregates.dto.ProductoReporteDTO;
 import com.pioriko.ms_restaurante.service.ComprobanteService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -12,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,22 +39,35 @@ public class ComprobanteServiceImpl implements ComprobanteService {
         parametros.put("numero_mesa", pedido.getMesa().getNumeroMesa());
         parametros.put("nombre_cliente", pedido.getCliente().getNombre());
         parametros.put("fecha", formatter.format(now));
-//        parametros.put("monto_unitario", "20");
-//        parametros.put("cantidad_producto", "2");
-//        parametros.put("producto_pedido", "hola");
-        // Manejo de productos
-        List<Map<String, Object>> productosDetalles = pedido.getDetallePedidos().stream()
-                .map(detalle -> {
-                    Map<String, Object> productoDetalle = new HashMap<>();
-                    productoDetalle.put("producto", detalle.getProducto().getNombre());  // Nombre del producto
-                    productoDetalle.put("cantidad", detalle.getCantidad());  // Cantidad del producto
-                    productoDetalle.put("monto_unitario", detalle.getProducto().getPrecio());  // Precio unitario
-                    productoDetalle.put("monto_total", detalle.getCantidad() * detalle.getProducto().getPrecio());  // Monto total
-                    return productoDetalle;
-                })
+
+        System.out.println("Cantidad de productos: " + pedido.getDetallePedidos().size());
+    pedido.getDetallePedidos().forEach(detalle -> {
+        System.out.println("Producto original: " + detalle.getProducto().getNombre());
+    });
+
+        List<ProductoReporteDTO> productosDetalles = pedido.getDetallePedidos().stream()
+        .map(detalle -> {
+            double montoTotal = detalle.getCantidad() * detalle.getProducto().getPrecio();
+            ProductoReporteDTO dto = new ProductoReporteDTO(
+                detalle.getProducto().getNombre(),
+                detalle.getCantidad(),
+                detalle.getProducto().getPrecio(),
+                montoTotal
+            );
+            // Debug para verificar mapping
+            System.out.println("Producto mapeado: " + dto.getProducto());
+            return dto;
+        })
                 .collect(Collectors.toList());
-        System.out.println(productosDetalles);
-        parametros.put("productos", new JRBeanCollectionDataSource(productosDetalles));
+        
+                System.out.println("Productos en lista final: " + productosDetalles.size());
+    productosDetalles.forEach(p -> {
+        System.out.println("Producto en lista: " + p.getProducto() + ", Cantidad: " + p.getCantidad());
+    });
+
+        JRBeanCollectionDataSource productosDataSource = new JRBeanCollectionDataSource(productosDetalles, false);
+
+        parametros.put("productos", productosDataSource);
         parametros.put("medio_pago", "Efectivo");
         parametros.put("sub_total", calcularSubtotal(pedido));
         parametros.put("total", calcularTotal(pedido));
@@ -61,15 +76,12 @@ public class ComprobanteServiceImpl implements ComprobanteService {
         // Generar reporte
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(reportFile.getAbsolutePath());
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, productosDataSource);
             return JasperExportManager.exportReportToPdf(jasperPrint);
         } catch (JRException e) {
             e.printStackTrace();
             throw new RuntimeException("Error al llenar el reporte: " + e.getMessage());
         }
-
-        // Exportar a PDF
-
     }
 
     private String calcularSubtotal(PedidoResponseDTO pedido) {

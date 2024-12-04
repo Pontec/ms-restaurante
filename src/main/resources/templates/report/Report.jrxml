@@ -1,6 +1,15 @@
 <!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
-<jasperReport name="PedidoReporte" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d5cc518-d6fc-4f17-95ef-a58ad49e7459">
+<jasperReport name="PedidoReporte" language="java" columnCount="1" pageWidth="420" pageHeight="595" orientation="Landscape" columnWidth="380" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="5d5cc518-d6fc-4f17-95ef-a58ad49e7459">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <property name="com.jaspersoft.studio.unit." value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
     <parameter name="imageDir" class="java.lang.String"/>
     <parameter name="nombre_mozo" class="java.lang.String"/>
     <parameter name="numero_mesa" class="java.lang.String"/>
@@ -10,7 +19,6 @@
     <parameter name="monto_unitario" class="java.lang.String"/>
     <parameter name="medio_pago" class="java.lang.String"/>
     <parameter name="sub_total" class="java.lang.String"/>
-    <parameter name="descuento" class="java.lang.String"/>
     <parameter name="total" class="java.lang.String"/>
     <parameter name="cantidad_producto" class="java.lang.String"/>
     <query language="sql"><![CDATA[]]></query>
@@ -18,91 +26,108 @@
     <field name="cantidad" class="java.lang.Integer"/>
     <field name="monto_unitario" class="java.lang.Double"/>
     <field name="monto_total" class="java.lang.Double"/>
-    <background splitType="Stretch"/>
-    <title height="217" splitType="Stretch">
-        <element kind="image" uuid="e83c4cd7-eac2-4e4a-a600-168d5941d7a0" x="180" y="40" width="170" height="177">
+    <title height="148" splitType="Stretch">
+        <element kind="image" uuid="e83c4cd7-eac2-4e4a-a600-168d5941d7a0" x="130" y="0" width="109" height="109">
             <expression><![CDATA[$P{imageDir} + "logo.jpg"]]></expression>
         </element>
-    </title>
-    <pageHeader height="31" splitType="Stretch">
-        <element kind="staticText" uuid="f1465059-9e24-40d2-88d9-1680681b99ff" x="0" y="0" width="560" height="30" fontSize="18.0" hTextAlign="Center">
+        <element kind="staticText" uuid="f1465059-9e24-40d2-88d9-1680681b99ff" x="1" y="110" width="399" height="30" fontSize="18.0" hTextAlign="Center">
             <text><![CDATA[Polleria Pio RiKo]]></text>
         </element>
-    </pageHeader>
-    <columnHeader height="171" splitType="Stretch">
-        <element kind="line" uuid="7b8f4f38-2acf-4661-abdd-2cf378ecbf35" x="0" y="11" width="561" height="1"/>
-        <element kind="staticText" uuid="6d8c68e9-1768-460e-bc92-2dcdeb58152f" x="414" y="16" width="76" height="30" fontSize="15.0">
-            <text><![CDATA[MESA:]]></text>
+    </title>
+    <pageHeader height="41" splitType="Stretch">
+        <element kind="staticText" uuid="a158daaf-0d02-416b-a70f-d04f5b01356b" x="0" y="10" width="50" height="20" fontSize="12.0">
+            <text><![CDATA[Fecha:]]></text>
         </element>
-        <element kind="textField" uuid="d8561605-e450-46f3-9e22-e1ce775bf84c" x="490" y="16" width="61" height="30" fontSize="15.0">
-            <expression><![CDATA[$P{numero_mesa}]]></expression>
-            <patternExpression><![CDATA[$P{numero_mesa}]]></patternExpression>
-        </element>
-        <element kind="line" uuid="43031118-2ebd-4d51-a601-a2505b509041" x="0" y="50" width="561" height="1"/>
-        <element kind="line" uuid="1f7783db-ef1a-4ce9-b1bc-750a77e1c36a" x="1" y="160" width="561" height="1"/>
-        <element kind="staticText" uuid="85e26bfb-ac2a-45ff-ae34-7f0fc2d9f32e" x="25" y="92" width="75" height="30" fontSize="15.0">
-            <text><![CDATA[MOZO:]]></text>
-        </element>
-        <element kind="staticText" uuid="e44e41e4-d3a3-420b-80f6-5e18744a55cb" x="25" y="122" width="75" height="30" fontSize="15.0">
-            <text><![CDATA[CLIENTE:]]></text>
-        </element>
-        <element kind="staticText" uuid="52f26ab6-a5f0-4843-b5b4-8f2d0aece77d" x="26" y="62" width="74" height="30" fontSize="15.0">
-            <text><![CDATA[FECHA:]]></text>
-        </element>
-        <element kind="textField" uuid="0c51eeca-ebf5-4cd4-b420-ced4ef5a8c2d" x="100" y="122" width="451" height="30" fontSize="15.0">
-            <expression><![CDATA[$P{nombre_cliente}]]></expression>
-        </element>
-        <element kind="textField" uuid="d3ece411-ab77-4ebc-9341-b3e22565d007" x="101" y="93" width="450" height="30" fontSize="15.0">
-            <expression><![CDATA[$P{nombre_mozo}]]></expression>
-        </element>
-        <element kind="textField" uuid="82818d0b-765d-4dc2-bf01-bd3d9ae860aa" x="100" y="61" width="451" height="30" fontSize="15.0">
+        <element kind="textField" uuid="5b5184d7-cc1c-4e45-b8c4-487f5e084ae1" x="50" y="10" width="200" height="20" fontSize="12.0">
             <expression><![CDATA[$P{fecha}]]></expression>
+        </element>
+    </pageHeader>
+    <columnHeader height="23" splitType="Stretch">
+        <element kind="staticText" uuid="6d8c68e9-1768-460e-bc92-2dcdeb58152f" x="0" y="1" width="170" height="20" fontSize="12.0" hTextAlign="Center">
+            <text><![CDATA[Producto]]></text>
+        </element>
+        <element kind="staticText" uuid="85e26bfb-ac2a-45ff-ae34-7f0fc2d9f32f" x="170" y="1" width="60" height="20" fontSize="12.0" hTextAlign="Center">
+            <text><![CDATA[Cantidad]]></text>
+        </element>
+        <element kind="staticText" uuid="6b8c46f7-6326-4b0b-b10d-d2dce9c6d96a" x="230" y="1" width="90" height="20" fontSize="12.0" hTextAlign="Center">
+            <text><![CDATA[Precio Unitario]]></text>
+        </element>
+        <element kind="staticText" uuid="a6b5b1a5-3e4c-475d-9056-90a44c6fdff5" x="320" y="1" width="80" height="20" fontSize="12.0" hTextAlign="Center">
+            <text><![CDATA[Monto Total]]></text>
         </element>
     </columnHeader>
     <detail>
-        <band height="77" splitType="Stretch">
-            <element kind="staticText" uuid="48831872-c38c-4d41-8ee2-36ed040bcb6a" x="60" y="0" width="80" height="30" fontSize="15.0">
-                <text><![CDATA[DETALLE:]]></text>
-            </element>
-            <element kind="textField" uuid="44227f8d-05e4-485b-8b58-c6d33e26bdec" x="60" y="37" width="410" height="30" fontSize="15.0">
+        <band height="20" splitType="Stretch">
+            <element kind="textField" uuid="44227f8d-05e4-485b-8b58-c6d33e26bdec" positionType="FixRelativeToBottom" x="0" y="0" width="170" height="20" fontSize="12.0" evaluationTime="Report" linkTarget="Self">
                 <expression><![CDATA[$F{producto}]]></expression>
+                <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                <property name="com.jaspersoft.layout.grid.x" value="-1"/>
+                <property name="com.jaspersoft.layout.grid.y" value="-1"/>
+                <property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+                <property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+                <property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+                <property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+                <property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
             </element>
-            <element kind="textField" uuid="2dc9efe8-6da1-4237-ab4a-82f96bfc8942" x="1" y="37" width="49" height="30" fontSize="14.0">
+            <element kind="textField" uuid="2dc9efe8-6da1-4237-ab4a-82f96bfc8942" positionType="FixRelativeToBottom" x="170" y="0" width="60" height="20" fontSize="12.0" evaluationTime="Report" linkType="None" linkTarget="Self" hTextAlign="Center">
                 <expression><![CDATA[$F{cantidad}]]></expression>
+                <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                <property name="com.jaspersoft.layout.grid.x" value="-1"/>
+                <property name="com.jaspersoft.layout.grid.y" value="-1"/>
+                <property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+                <property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+                <property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+                <property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+                <property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
+                <property name="com.jaspersoft.studio.unit.x" value="px"/>
             </element>
-            <element kind="textField" uuid="a9359431-dc8f-4493-ac6f-9b776527b446" x="480" y="37" width="70" height="30" fontSize="15.0">
+            <element kind="textField" uuid="a9359431-dc8f-4493-ac6f-9b776527b446" positionType="FixRelativeToBottom" x="230" y="0" width="90" height="20" fontSize="12.0" evaluationTime="Report" linkType="None" linkTarget="Self" hTextAlign="Center">
                 <expression><![CDATA[$F{monto_unitario}]]></expression>
+                <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                <property name="com.jaspersoft.layout.grid.x" value="-1"/>
+                <property name="com.jaspersoft.layout.grid.y" value="-1"/>
+                <property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+                <property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+                <property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+                <property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+                <property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
             </element>
+            <element kind="textField" uuid="ea6fa230-d432-41b1-b410-8f422ac72885" x="320" y="0" width="80" height="20" fontSize="12.0" evaluationTime="Report" linkType="None" linkTarget="Self" hTextAlign="Center">
+                <expression><![CDATA[$F{monto_total}]]></expression>
+                <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                <property name="com.jaspersoft.layout.grid.x" value="-1"/>
+                <property name="com.jaspersoft.layout.grid.y" value="-1"/>
+                <property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+                <property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+                <property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+                <property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+                <property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
+            </element>
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.spreadsheet.SpreadsheetLayout"/>
         </band>
     </detail>
-    <columnFooter height="183" splitType="Stretch">
-        <element kind="staticText" uuid="79b20ecc-0705-481d-811b-7bd6404a6157" x="20" y="14" width="140" height="26" fontSize="15.0">
-            <text><![CDATA[MEDIO DE PAGO:]]></text>
+    <columnFooter height="80" splitType="Stretch">
+        <element kind="line" uuid="547bfed0-d9bc-4173-9df2-d0d69140e0ec" x="0" y="0" width="400" height="1"/>
+        <element kind="staticText" uuid="79b20ecc-0705-481d-811b-7bd6404a6157" x="10" y="10" width="90" height="20" fontSize="12.0">
+            <text><![CDATA[Medio de Pago:]]></text>
         </element>
-        <element kind="line" uuid="547bfed0-d9bc-4173-9df2-d0d69140e0ec" x="10" y="9" width="561" height="1"/>
-        <element kind="textField" uuid="e7d6b6ec-82cf-4bfb-9d97-91b1261cc93c" x="27" y="43" width="530" height="30" fontSize="15.0">
+        <element kind="textField" uuid="e7d6b6ec-82cf-4bfb-9d97-91b1261cc93c" x="100" y="10" width="278" height="20" fontSize="12.0">
             <expression><![CDATA[$P{medio_pago}]]></expression>
         </element>
-        <element kind="staticText" uuid="60a9c726-9fbe-4603-b034-dcb572a2d85b" x="350" y="90" width="110" height="30" fontSize="15.0">
-            <text><![CDATA[SUBTOTAL:]]></text>
+        <element kind="staticText" uuid="60a9c726-9fbe-4603-b034-dcb572a2d85b" x="219" y="40" width="90" height="19" fontSize="12.0">
+            <text><![CDATA[Subtotal:]]></text>
         </element>
-        <element kind="textField" uuid="024dd413-6e56-464d-b8f1-180e2ac4ad52" x="70" y="110" width="80" height="30" fontSize="15.0">
+        <element kind="textField" uuid="024dd413-6e56-464d-b8f1-180e2ac4ad52" x="309" y="40" width="91" height="19" fontSize="12.0">
             <expression><![CDATA[$P{sub_total}]]></expression>
         </element>
-        <element kind="staticText" uuid="d2b95b78-b017-4c35-983f-6b7ed97ab8c3" x="350" y="120" width="110" height="30" fontSize="15.0">
-            <text><![CDATA[DESCUENTO:]]></text>
+        <element kind="staticText" uuid="1fdcd7f0-4cfd-455e-86be-3070a3e7229c" x="219" y="59" width="90" height="19" fontSize="12.0">
+            <text><![CDATA[Total:]]></text>
         </element>
-        <element kind="textField" uuid="c45b8d60-e34b-4c4e-b8bc-c3796e7207a7" x="480" y="120" width="80" height="30" fontSize="15.0">
-            <expression><![CDATA[$P{descuento}]]></expression>
-        </element>
-        <element kind="staticText" uuid="1fdcd7f0-4cfd-455e-86be-3070a3e7229c" x="350" y="150" width="110" height="30" fontSize="15.0">
-            <text><![CDATA[TOTAL:]]></text>
-        </element>
-        <element kind="textField" uuid="6982e96d-2f47-4a49-b2b1-ff5c0dfe8b37" x="483" y="150" width="80" height="30" fontSize="15.0">
+        <element kind="textField" uuid="6982e96d-2f47-4a49-b2b1-ff5c0dfe8b37" x="309" y="59" width="91" height="20" fontSize="12.0">
             <expression><![CDATA[$P{total}]]></expression>
         </element>
-        <element kind="textField" uuid="a9359431-dc8f-4493-ac6f-9b776527b446" x="190" y="110" width="70" height="30" fontSize="15.0">
-            <expression><![CDATA[$F{monto_total}]]></expression>
-        </element>
+        <element kind="line" uuid="ee8a6d80-f477-415a-b6f5-5ff979334d7e" x="0" y="30" width="400" height="1"/>
+        <property name="com.jaspersoft.studio.unit.height" value="px"/>
     </columnFooter>
 </jasperReport>
