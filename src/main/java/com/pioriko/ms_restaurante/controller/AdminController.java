@@ -1,6 +1,5 @@
 package com.pioriko.ms_restaurante.controller;
 
-import com.pioriko.ms_restaurante.agregates.dto.EmpleadoDTO;
 import com.pioriko.ms_restaurante.agregates.request.SignUpRequest;
 import com.pioriko.ms_restaurante.entities.EmpleadosEntity;
 import com.pioriko.ms_restaurante.service.EmpleadoService;

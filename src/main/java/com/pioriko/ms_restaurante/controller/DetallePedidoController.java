@@ -2,7 +2,6 @@ package com.pioriko.ms_restaurante.controller;
 
 import com.pioriko.ms_restaurante.agregates.dto.DetallePedidoDTO;
 import com.pioriko.ms_restaurante.agregates.response.ResponseBase;
-import com.pioriko.ms_restaurante.entities.DetallePedidoEntity;
 import com.pioriko.ms_restaurante.service.DetallePedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1/admin/detalle-pedidos")
