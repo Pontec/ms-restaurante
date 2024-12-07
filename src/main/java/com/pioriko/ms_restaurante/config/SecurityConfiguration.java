@@ -37,6 +37,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/autenticacion/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasAnyAuthority(Role.ADMIN.name())
                         .requestMatchers("/api/v1/moso/**").hasAnyAuthority(Role.MOZO.name(), Role.ADMIN.name())
                         .requestMatchers("/api/v1/caja/**").hasAnyAuthority(Role.CAJA.name(), Role.ADMIN.name())
@@ -70,7 +71,7 @@ public class SecurityConfiguration {
     // Configuración de CORS
     private UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // permite el origen
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174", "http://localhost:5173", "http://localhost:5175")); // permite el origen
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // métodos permitidos
         configuration.setAllowedHeaders(Arrays.asList("*")); // permite todos los encabezados
         configuration.setAllowCredentials(true); // permite credenciales

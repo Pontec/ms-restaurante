@@ -7,16 +7,16 @@ import com.pioriko.ms_restaurante.dao.RolRepository;
 import com.pioriko.ms_restaurante.dao.EmpleadoRepository;
 import com.pioriko.ms_restaurante.entities.Rol;
 import com.pioriko.ms_restaurante.entities.Role;
-import com.pioriko.ms_restaurante.entities.Empleados;
+import com.pioriko.ms_restaurante.entities.EmpleadosEntity;
 import com.pioriko.ms_restaurante.service.AuthenticationService;
 import com.pioriko.ms_restaurante.service.JwtService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,31 +31,33 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
 
     @Override
-    public Empleados signUpMoso(SignUpRequest signUpRequest) {
-        Empleados empleados = new Empleados();
-        empleados.setNombres(signUpRequest.getNombres());
-        empleados.setApellidos(signUpRequest.getApellidos());
-        empleados.setCorreo(signUpRequest.getEmail());
-        empleados.setNumDoc(signUpRequest.getNumDoc());
-        empleados.setTelefono(signUpRequest.getTelefono());
-        empleados.setDireccion(signUpRequest.getDireccion());
+    public EmpleadosEntity signUpMoso(SignUpRequest signUpRequest) {
+        EmpleadosEntity empleadosEntity = new EmpleadosEntity();
+        empleadosEntity.setNombres(signUpRequest.getNombres());
+        empleadosEntity.setApellidos(signUpRequest.getApellidos());
+        empleadosEntity.setCorreo(signUpRequest.getEmail());
+        empleadosEntity.setNumDoc(signUpRequest.getNumDoc());
+        empleadosEntity.setTelefono(signUpRequest.getTelefono());
+        empleadosEntity.setDireccion(signUpRequest.getDireccion());
+        empleadosEntity.setFechaContratacion(LocalDate.now());
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.MOZO.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);
-        empleados.setRoles(assginedRoles);
-        empleados.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
-        return empleadoRepository.save(empleados);
+        empleadosEntity.setRoles(assginedRoles);
+        empleadosEntity.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
+        return empleadoRepository.save(empleadosEntity);
     }
 
     @Override
-    public Empleados signUpAdmin(SignUpRequest signUpRequest) {
-        Empleados empleados = new Empleados();
-        empleados.setNombres(signUpRequest.getNombres());
-        empleados.setApellidos(signUpRequest.getApellidos());
-        empleados.setCorreo(signUpRequest.getEmail());
-        empleados.setNumDoc(signUpRequest.getNumDoc());
-        empleados.setTelefono(signUpRequest.getTelefono());
-        empleados.setDireccion(signUpRequest.getDireccion());
+    public EmpleadosEntity signUpAdmin(SignUpRequest signUpRequest) {
+        EmpleadosEntity empleadosEntity = new EmpleadosEntity();
+        empleadosEntity.setNombres(signUpRequest.getNombres());
+        empleadosEntity.setApellidos(signUpRequest.getApellidos());
+        empleadosEntity.setCorreo(signUpRequest.getEmail());
+        empleadosEntity.setNumDoc(signUpRequest.getNumDoc());
+        empleadosEntity.setTelefono(signUpRequest.getTelefono());
+        empleadosEntity.setDireccion(signUpRequest.getDireccion());
+        empleadosEntity.setFechaContratacion(LocalDate.now());
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.ADMIN.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         Rol userRol2 = rolRepository.findByNombreRol(Role.COCINERO.name()).orElseThrow(()-> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
@@ -65,54 +67,57 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         assginedRoles.add(userRol2);
         assginedRoles.add(userRol3);
         assginedRoles.add(userRol4);
-        empleados.setRoles(assginedRoles);
-        empleados.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
-        return empleadoRepository.save(empleados);
+        empleadosEntity.setRoles(assginedRoles);
+        empleadosEntity.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
+        return empleadoRepository.save(empleadosEntity);
     }
 
     @Override
-    public Empleados signUpCajero(SignUpRequest signUpRequest) {
-        Empleados empleados = new Empleados();
-        empleados.setNombres(signUpRequest.getNombres());
-        empleados.setApellidos(signUpRequest.getApellidos());
-        empleados.setCorreo(signUpRequest.getEmail());
-        empleados.setNumDoc(signUpRequest.getNumDoc());
-        empleados.setTelefono(signUpRequest.getTelefono());
-        empleados.setDireccion(signUpRequest.getDireccion());
+    public EmpleadosEntity signUpCajero(SignUpRequest signUpRequest) {
+        EmpleadosEntity empleadosEntity = new EmpleadosEntity();
+        empleadosEntity.setNombres(signUpRequest.getNombres());
+        empleadosEntity.setApellidos(signUpRequest.getApellidos());
+        empleadosEntity.setCorreo(signUpRequest.getEmail());
+        empleadosEntity.setNumDoc(signUpRequest.getNumDoc());
+        empleadosEntity.setTelefono(signUpRequest.getTelefono());
+        empleadosEntity.setDireccion(signUpRequest.getDireccion());
+        empleadosEntity.setFechaContratacion(LocalDate.now());
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.CAJA.name()).orElseThrow(() -> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);
-        empleados.setRoles(assginedRoles);
-        empleados.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
-        return empleadoRepository.save(empleados);
+        empleadosEntity.setRoles(assginedRoles);
+        empleadosEntity.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
+        return empleadoRepository.save(empleadosEntity);
     }
 
     @Override
-    public Empleados signUpCocinero(SignUpRequest signUpRequest) {
-        Empleados empleados = new Empleados();
-        empleados.setNombres(signUpRequest.getNombres());
-        empleados.setApellidos(signUpRequest.getApellidos());
-        empleados.setCorreo(signUpRequest.getEmail());
-        empleados.setNumDoc(signUpRequest.getNumDoc());
-        empleados.setTelefono(signUpRequest.getTelefono());
-        empleados.setDireccion(signUpRequest.getDireccion());
+    public EmpleadosEntity signUpCocinero(SignUpRequest signUpRequest) {
+        EmpleadosEntity empleadosEntity = new EmpleadosEntity();
+        empleadosEntity.setNombres(signUpRequest.getNombres());
+        empleadosEntity.setApellidos(signUpRequest.getApellidos());
+        empleadosEntity.setCorreo(signUpRequest.getEmail());
+        empleadosEntity.setNumDoc(signUpRequest.getNumDoc());
+        empleadosEntity.setTelefono(signUpRequest.getTelefono());
+        empleadosEntity.setDireccion(signUpRequest.getDireccion());
+        empleadosEntity.setFechaContratacion(LocalDate.now());
+
         Set<Rol> assginedRoles = new HashSet<>();
         Rol userRol = rolRepository.findByNombreRol(Role.COCINERO.name()).orElseThrow(()-> new RuntimeException("EL ROL NO EXISTE, REVISA TU BD"));
         assginedRoles.add(userRol);
-        empleados.setRoles(assginedRoles);
-        empleados.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
-        return empleadoRepository.save(empleados);
+        empleadosEntity.setRoles(assginedRoles);
+        empleadosEntity.setPassword(new BCryptPasswordEncoder().encode(signUpRequest.getPassword()));
+        return empleadoRepository.save(empleadosEntity);
     }
 
     @Override
-    public List<Empleados> todos() {
+    public List<EmpleadosEntity> todos() {
         return empleadoRepository.findAll();
     }
 
     @Override
     public AuthenticationResponse signin(SignInRequest signInRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                signInRequest.getEmail(),signInRequest.getPassword()));
+                signInRequest.getEmail(), signInRequest.getPassword()));
         var user = empleadoRepository.findByCorreo(signInRequest.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Email no valido"));
 

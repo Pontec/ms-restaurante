@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class DetalleComboDTO {
 
-    private Integer idDetalleCombo;
-    private Integer idCombo;     // Referencia al combo
-    private Integer idProducto;  // Referencia al producto
+    private Integer idDetCombo;
+    private Integer idCombo;
+    private Integer idProducto;
     private Integer cantidad;
 }
 

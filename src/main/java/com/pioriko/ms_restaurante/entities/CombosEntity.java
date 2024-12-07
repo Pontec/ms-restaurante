@@ -1,24 +1,27 @@
 package com.pioriko.ms_restaurante.entities;
 
+import com.pioriko.ms_restaurante.entities.enu.EstadoCombo;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "combos")
 public class CombosEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_combo")
     private Integer idCombo;
+    @Column(nullable = false)
     private String nombre;
+    @Column(nullable = false)
     private Double precio;
     private String descripcion;
     private String foto;
     @Enumerated(EnumType.STRING)
     private EstadoCombo estado;
 
-    public enum EstadoCombo {
-        DISPONIBLE,
-        NO_DISPONIBLE
-    }
 }

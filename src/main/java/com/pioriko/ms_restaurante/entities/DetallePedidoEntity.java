@@ -1,9 +1,12 @@
 package com.pioriko.ms_restaurante.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "detalle_pedido")
 public class DetallePedidoEntity {
@@ -20,10 +23,15 @@ public class DetallePedidoEntity {
     private PedidoEntity pedido;
 
     @ManyToOne
-    @JoinColumn(name = "id_producto")
+    @JoinColumn(name = "id_producto", nullable = false)
     private ProductoEntity producto;
 
     @ManyToOne
     @JoinColumn(name = "id_combo")
     private CombosEntity combo;
+
+    public Double getTotalPrice() {
+        return this.precio * this.cantidad;
+    }
+
 }

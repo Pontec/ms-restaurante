@@ -1,6 +1,5 @@
 package com.pioriko.ms_restaurante.service;
 
-import com.pioriko.ms_restaurante.entities.Empleados;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JwtService {

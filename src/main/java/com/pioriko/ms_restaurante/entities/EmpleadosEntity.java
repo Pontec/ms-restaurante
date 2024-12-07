@@ -1,11 +1,13 @@
 package com.pioriko.ms_restaurante.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +15,11 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "empleados")
-@Data
-public class Empleados implements UserDetails {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class EmpleadosEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_empleado")
@@ -27,6 +32,7 @@ public class Empleados implements UserDetails {
     private String numDoc;
     private String direccion;
     private String telefono;
+    private LocalDate fechaContratacion;
 
     //private boolean accountNonExpired;
     @ManyToMany(fetch = FetchType.EAGER)

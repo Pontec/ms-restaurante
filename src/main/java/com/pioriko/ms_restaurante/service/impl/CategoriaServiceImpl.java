@@ -59,7 +59,6 @@ public class CategoriaServiceImpl implements CategoriaService {
             categoriaEntity.setNombre(categoriaDTO.getNombre());
             categoriaRepository.save(categoriaEntity);
         }
-
         return categoriaMapper.mapToCategoriaDTO(categoriaEntity);
     }
 }
