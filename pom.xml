@@ -31,6 +31,16 @@
 		<spring-cloud.version>2023.0.3</spring-cloud.version>
 		<org.mapstruct.version>1.6.0</org.mapstruct.version>
 		<org.projectlombok.version>1.18.34</org.projectlombok.version>
+
+		<sonar.projectKey>codigo-restaurante-pioriko_unit-test</sonar.projectKey>
+		<sonar.organization>codigo-restaurante-pioriko</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>4273b80c89140c3c1cf8d72c78c6de2232a2e562</sonar.login>
+		<!-- Propiedad de configuracion de JACOCO -->
+		<jacoco.version>0.8.7</jacoco.version>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/coverage-reports/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -190,6 +200,32 @@
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>5.0.0.4389</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/coverage-reports</outputDirectory>
+							<formats>
+								<format>XML</format>
+							</formats>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

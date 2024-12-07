@@ -1,7 +1,6 @@
 package com.pioriko.ms_restaurante.service;
 
 import com.pioriko.ms_restaurante.agregates.dto.ProductoDTO;
-import com.pioriko.ms_restaurante.entities.ProductoEntity;
 
 import java.util.List;
 
